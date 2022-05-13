@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect: '/login',
+    redirect: '/adminHome/userManagement',
     component: () => import('@/views/index.vue'),
     children: [
       {
@@ -21,14 +21,19 @@ const routes = [
         component: () => import('@/views/admin/adminHome.vue'),
         children: [
           {
-            path: '/systemMaintenance',
+            path: '/adminHome/dataShow',
+            name: 'dataShow',
+            component: () => import('@/views/admin/dataShow.vue')
+          },
+          {
+            path: '/adminHome/systemMaintenance',
             name: 'systemMaintenance',
             component: () => import('@/views/admin/systemMaintenance.vue')
           },
           {
-            path: '/userManagement',
+            path: '/adminHome/userManagement',
             name: 'userManagement',
-            component: () => import('@/views/admin/userManagement.vue')
+            component: () => import('@/views/admin/userManagement/userManagement.vue')
           }
         ]
       },

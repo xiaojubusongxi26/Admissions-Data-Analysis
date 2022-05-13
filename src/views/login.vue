@@ -7,7 +7,7 @@
       <div class="login_info">
         <div class="info_header">
           <span :class="{ log: isLog === 0 }" @click="isLog = 0">登录</span>
-          <span class="get-back" :class="{ log: isLog === 1 }" @click="isLog = 1">找回密码</span>
+          <span class="get-back" :class="{ log: isLog === 1 }" @click="isLog = 1">忘记密码</span>
         </div>
         <!-- 登录 -->
         <div class="info" v-if="isLog === 0">

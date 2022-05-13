@@ -1,0 +1,87 @@
+header {
+  width: 100%;
+  max-width: 1280px;
+  height: 50px;
+  z-index: 10;
+  position: fixed;
+  top: 70px;
+  background: #ffffff;
+  display: flex;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  border-bottom: 1px solid #eeeff1;
+}
+
+header .user-avatar {
+  flex-grow: 1;
+  height: 50px;
+  line-height: 50px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+header .user-avatar .avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+header .user-avatar .avatar a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  height: 50px;
+}
+
+header .user-avatar .avatar a img {
+  width: 36px;
+  height: 36px;
+  margin: 0 8px;
+}
+
+header .user-avatar .avatar a h2 {
+  padding: 0 8px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: #000;
+}
+
+header .links {
+  position: relative;
+  height: 100%;
+}
+
+header .links .link {
+  height: 100%;
+  cursor: pointer;
+  display: inline-block;
+}
+
+header .links .link a {
+  width: 120px;
+  display: inline-block;
+  padding: 0 16px;
+  height: 50px;
+  line-height: 50px;
+  text-decoration: none;
+  color: #000;
+  font-size: 20px;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+
+header .links .left {
+  position: absolute;
+  left: 0;
+}
+
+header .links .text a {
+  border-bottom: 0;
+  transition: .1s all;
+}
+
+header .links .text a:hover {
+  border-bottom: 4px solid #1595d4;
+}

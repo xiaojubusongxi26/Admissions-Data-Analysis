@@ -5,12 +5,13 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Vuex from 'vuex'
+import * as echarts from 'echarts'
 
-// ÒýÈëelementui
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.prototype.$axios = axios
+Vue.prototype.$echarts = echarts
 
 Vue.use(Vuex)
 Vue.use(VueAxios, axios)

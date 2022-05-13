@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <nav-header></nav-header>
     <router-view></router-view>
     <nav-footer></nav-footer>
@@ -27,4 +27,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  width: 1280px;
+  margin: 0 auto;
+}
 </style>
