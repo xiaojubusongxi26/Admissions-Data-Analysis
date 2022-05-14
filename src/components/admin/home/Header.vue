@@ -10,12 +10,12 @@
     </div>
     <div class="links">
       <div class="link text">
-        <a href="/adminHome/dataShow">
+        <a href="/dataShow">
           首页
         </a>
       </div>
       <div class="link text">
-        <a href="/adminHome/userManagement">
+        <a href="/userList">
           用户管理
         </a>
       </div>

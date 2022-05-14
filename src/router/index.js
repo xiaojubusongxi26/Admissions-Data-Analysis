@@ -12,28 +12,40 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect: '/adminHome/userManagement',
+    redirect: '/addUser',
     component: () => import('@/views/index.vue'),
     children: [
       {
         path: '/adminHome',
-        name: 'adminHome',
+        name: '管理员首页',
         component: () => import('@/views/admin/adminHome.vue'),
         children: [
           {
-            path: '/adminHome/dataShow',
-            name: 'dataShow',
+            path: '/dataShow',
+            name: '数据展示',
             component: () => import('@/views/admin/dataShow.vue')
           },
           {
-            path: '/adminHome/systemMaintenance',
-            name: 'systemMaintenance',
+            path: '/systemMaintenance',
+            name: '系统维护',
             component: () => import('@/views/admin/systemMaintenance.vue')
           },
           {
-            path: '/adminHome/userManagement',
-            name: 'userManagement',
-            component: () => import('@/views/admin/userManagement/userManagement.vue')
+            path: '/userManagement',
+            name: '用户管理',
+            component: () => import('@/views/admin/userManagement/userManagement.vue'),
+            children: [
+              {
+                path: '/userList',
+                name: '用户列表',
+                component: () => import('@/views/admin/userManagement/userList.vue')
+              },
+              {
+                path: '/addUser',
+                name: '添加用户',
+                component: () => import('@/views/admin/userManagement/addUser.vue')
+              }
+            ]
           }
         ]
       },
