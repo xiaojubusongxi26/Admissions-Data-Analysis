@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect: '/addUser',
+    redirect: '/userInfo/1001',
     component: () => import('@/views/index.vue'),
     children: [
       {
@@ -44,6 +44,21 @@ const routes = [
                 path: '/addUser',
                 name: '添加用户',
                 component: () => import('@/views/admin/userManagement/addUser.vue')
+              },
+              {
+                path: '/userInfo/:id',
+                name: '用户详情',
+                component: () => import('@/views/admin/userManagement/userInfo.vue')
+              },
+              {
+                path: '/reviseUser/:id',
+                name: '修改用户信息',
+                component: () => import('@/views/admin/userManagement/reviseUser.vue')
+              },
+              {
+                path: '/resetUserPassword/:id',
+                name: '重置用户密码',
+                component: () => import('@/views/admin/userManagement/resetUserPassword.vue')
               }
             ]
           }

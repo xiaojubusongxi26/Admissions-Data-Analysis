@@ -27,9 +27,7 @@
           </span>
         </div>
         <div class="user-info-data">
-          <span>
-            {{ userInfo.userName }}
-          </span>
+          <el-input v-model="changeUserInfo.userName" placeholder="请输入内容"></el-input>
         </div>
       </div>
       <div class="user-info-show">
@@ -39,9 +37,7 @@
           </span>
         </div>
         <div class="user-info-data">
-          <span>
-            {{ userInfo.userFullName }}
-          </span>
+          <el-input v-model="changeUserInfo.userFullName" placeholder="请输入内容"></el-input>
         </div>
       </div>
       <div class="user-info-show">
@@ -51,9 +47,7 @@
           </span>
         </div>
         <div class="user-info-data">
-          <span>
-            {{ userInfo.userEmail }}
-          </span>
+          <el-input v-model="changeUserInfo.userEmail" placeholder="请输入内容"></el-input>
         </div>
       </div>
       <div class="user-info-show">
@@ -63,9 +57,7 @@
           </span>
         </div>
         <div class="user-info-data">
-          <span>
-            {{ userInfo.userTell }}
-          </span>
+          <el-input v-model="changeUserInfo.userTell" placeholder="请输入内容"></el-input>
         </div>
       </div>
       <div class="user-info-show">
@@ -86,9 +78,9 @@
             性别：
           </span>
         </div>
-        <div class="user-info-data">
-          <span v-if="userInfo.userSex === '1'">男</span>
-          <span v-else>女</span>
+        <div class="user-info-data user-info-sex">
+          <el-radio v-model="changeUserInfo.userSex" label="1">男</el-radio>
+          <el-radio v-model="changeUserInfo.userSex" label="2">女</el-radio>
         </div>
       </div>
       <div class="user-info-show">
@@ -110,8 +102,8 @@
           </span>
         </div>
         <div class="user-info-data">
-          <el-tag size="small" v-if="userInfo.userState">启用</el-tag>
-          <el-tag size="small" v-else type="danger">注销</el-tag>
+          <el-tag v-if="userInfo.userState">启用</el-tag>
+          <el-tag v-else type="danger">注销</el-tag>
         </div>
       </div>
       <div class="user-info-show">
@@ -126,7 +118,10 @@
           </span>
         </div>
       </div>
-      <el-button type="primary" @click="goUserList()">返回</el-button>
+      <div class="user-info-btn">
+        <el-button type="primary" @click="saveRevise()">保存</el-button>
+        <el-button type="primary" @click="goUserList()">返回</el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -145,13 +140,18 @@ export default {
         userAvatar: require('@/assets/images/default/avatar/头像男三.png'),
         userName: '风花雪月',
         userFullName: '李寒衣',
+        // 1是男，2女
         userSex: '2',
         userEmail: '126@lihanyi.com',
         userRole: '管理员',
-        userState: 1,
+        // 1为启用，0为注销
+        userState: 0,
         userCity: '雪月城',
         userScore: '未设置',
         userTell: 12626262626
+      },
+      // 可更改的用户信息
+      changeUserInfo: {
       },
       // element大图预览
       srcList: [
@@ -166,19 +166,20 @@ export default {
       this.$router.push('/userList')
     }
   },
-  created () {},
+  created () {
+    this.changeUserInfo = this.userInfo
+  },
   mounted () {}
 }
 </script>
 <style lang="scss" scoped>
-@import 'http://cdn.repository.webfont.com/webfonts/nomal/147559/19673/62826059f629d81220bb2b91.css';
-
 .user-info {
   width: 100%;
   box-sizing: border-box;
   padding: 56px 56px;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   position: relative;
   h3 {
@@ -190,6 +191,7 @@ export default {
     flex: 1;
   }
   .user-info-show {
+    width: 500px;
     display: flex;
     height: 50px;
     line-height: 50px;
@@ -213,6 +215,10 @@ export default {
       span {
         float: left;
       }
+    }
+    .user-info-sex {
+      display: flex;
+      align-items: center;
     }
   }
   .user-info-show-avatar {
