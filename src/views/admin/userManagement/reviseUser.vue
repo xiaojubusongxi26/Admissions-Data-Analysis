@@ -79,8 +79,8 @@
           </span>
         </div>
         <div class="user-info-data user-info-sex">
-          <el-radio v-model="changeUserInfo.userSex" label="1">男</el-radio>
-          <el-radio v-model="changeUserInfo.userSex" label="2">女</el-radio>
+          <el-radio v-model="changeUserInfo.userSex" label="0">男</el-radio>
+          <el-radio v-model="changeUserInfo.userSex" label="1">女</el-radio>
         </div>
       </div>
       <div class="user-info-show">
@@ -141,7 +141,7 @@ export default {
         userName: '风花雪月',
         userFullName: '李寒衣',
         // 1是男，2女
-        userSex: '2',
+        userSex: '1',
         userEmail: '126@lihanyi.com',
         userRole: '管理员',
         // 1为启用，0为注销

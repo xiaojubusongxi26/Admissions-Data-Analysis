@@ -87,7 +87,7 @@
           </span>
         </div>
         <div class="user-info-data">
-          <span v-if="userInfo.userSex === '1'">男</span>
+          <span v-if="userInfo.userSex === '0'">男</span>
           <span v-else>女</span>
         </div>
       </div>
@@ -145,10 +145,10 @@ export default {
         userAvatar: require('@/assets/images/default/avatar/头像男三.png'),
         userName: '风花雪月',
         userFullName: '李寒衣',
-        userSex: '2',
+        userSex: '1',
         userEmail: '126@lihanyi.com',
         userRole: '管理员',
-        userState: 1,
+        userState: 0,
         userCity: '雪月城',
         userScore: '未设置',
         userTell: 12626262626

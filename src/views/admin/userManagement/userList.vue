@@ -65,7 +65,7 @@
           <i class="el-icon-female"></i>
           性别
         </template>
-        <span v-if="item.userSex === '1'">男</span>
+        <span v-if="item.userSex === '0'">男</span>
         <span v-else>女</span>
       </el-descriptions-item>
       <el-descriptions-item>
@@ -124,7 +124,7 @@ export default {
           userId: '1001',
           userName: '风花雪月',
           userFullName: '李寒衣',
-          userSex: '2',
+          userSex: '1',
           userEmail: '126@lihanyi.com',
           userRole: '管理员',
           userState: 1,
@@ -134,7 +134,7 @@ export default {
           userId: '1002',
           userName: '风花雪月',
           userFullName: '李寒衣',
-          userSex: '2',
+          userSex: '1',
           userEmail: '126@lihanyi.com',
           userRole: '管理员',
           userState: 0,
@@ -144,7 +144,7 @@ export default {
           userId: '1003',
           userName: '风花雪月',
           userFullName: '李寒衣',
-          userSex: '2',
+          userSex: '1',
           userEmail: '126@lihanyi.com',
           userRole: '管理员',
           userState: 1,
@@ -154,7 +154,7 @@ export default {
           userId: '1004',
           userName: '风花雪月',
           userFullName: '李寒衣',
-          userSex: '2',
+          userSex: '1',
           userEmail: '126@lihanyi.com',
           userRole: '管理员',
           userState: 0,
@@ -164,7 +164,7 @@ export default {
           userId: '1005',
           userName: '风花雪月',
           userFullName: '李寒衣',
-          userSex: '2',
+          userSex: '1',
           userEmail: '126@lihanyi.com',
           userRole: '管理员',
           userState: 1,

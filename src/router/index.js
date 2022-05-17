@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect: '/userInfo/1001',
+    redirect: '/userCenter/1001',
     component: () => import('@/views/index.vue'),
     children: [
       {
@@ -61,23 +61,33 @@ const routes = [
                 component: () => import('@/views/admin/userManagement/resetUserPassword.vue')
               }
             ]
+          },
+          {
+            path: '/personalCenter',
+            name: '个人中心',
+            component: () => import('@/views/admin/personalCenter.vue')
           }
         ]
       },
       {
         path: '/userHome',
-        name: 'userHome',
+        name: '用户主页',
         component: () => import('@/views/user/userHome.vue'),
         children: [
           {
             path: '/analysisQuery',
-            name: 'analysisQuery',
+            name: '分析查询',
             component: () => import('@/views/user/analysisQuery.vue')
           },
           {
             path: '/dataDisplay',
-            name: 'dataDisplay',
+            name: '大屏展示',
             component: () => import('@/views/user/dataDisplay.vue')
+          },
+          {
+            path: '/userCenter/:id',
+            name: '用户中心',
+            component: () => import('@/views/user/userCenter.vue')
           }
         ]
       }
