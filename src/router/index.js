@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect: '/userCenter/1001',
+    redirect: '/analysisQuery',
     component: () => import('@/views/index.vue'),
     children: [
       {

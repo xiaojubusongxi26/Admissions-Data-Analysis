@@ -21,7 +21,7 @@
       </div>
       <div class="link text">
         <a href="/analysisQuery">
-          分析系统
+          分析查询
         </a>
       </div>
       <div class="link text">
