@@ -1,35 +1,27 @@
 <template>
-  <div class="footer">
-    <div class="body">
-      <div class="info">
-        <a>Copyright © 2022 高校查(中国)</a>
-        <div class="info-contact">
-          <div class="address">
-            地址 : 四川省成都市西南航空港经济开发区学府路一段24号
-          </div>
-          <div class="phone">联系电话 : 023-xxxxxxxx</div>
-        </div>
-      </div>
-      <div class="excess">
-        <a>商务咨询</a>
-        <el-divider direction="vertical"></el-divider>
-        <a>问题反馈</a>
-        <el-divider direction="vertical"></el-divider>
-        <a>加入我们</a>
-        <el-divider direction="vertical"></el-divider>
-        <a>使用条款</a>
-        <el-divider direction="vertical"></el-divider>
-        <a>隐私政策</a>
-      </div>
+  <div class="nav-footer">
+    <div>
+      <span>心上青梅</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>好哒</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>El viejo</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>刘一翔</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>🌸</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>Rn</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>云岫</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>陈琰✨</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>Plume</span>
+      <el-divider direction="vertical"></el-divider>
+      <span>易曦翰</span>
     </div>
-    <div class="record">
-      <a>川 ICP 备 xxxxxxxxx 号</a>
-      <a>川 ICP 证 Xx-xxxxxxxx </a>
-      <a>中国互联网违法和不良信息举报中心</a>
-      <a>四川互联网违法和不良信息举报中心</a>
-      <a>12345政务服务便民热线</a>
-      <a>扫黄打非举报</a>
-    </div>
+    <span class="copyright">Copyright ©2022 摸摸小组</span>
   </div>
 </template>
 
@@ -37,66 +29,43 @@
 export default {
   components: {},
   props: {},
-  data() {
-    return {}
+  data () {
+    return {
+    }
   },
   watch: {},
   computed: {},
   methods: {},
-  created() {},
-  mounted() {},
+  created () {},
+  mounted () {}
 }
 </script>
 <style lang="scss" scoped>
-.footer {
-  border-bottom: 1px solid #f1f1f1;
-
-  font-size: 14px;
-  padding: 26px;
-
-  .body {
-    display: flex;
-    justify-content: space-between;
-
-    .info {
-      left: 0;
-      a {
-        display: flex;
-        justify-content: flex-start;
-        text-decoration: inherit;
-        touch-action: manipulation;
-        color: inherit;
-        text-decoration: none;
-        background-color: transparent;
-        outline: none;
-        cursor: pointer;
-        transition: color 0.3s;
-      }
-
-      .info-contact {
-        display: flex;
-        justify-self: start;
-
-        .phone {
-          margin-left: 8px;
-        }
-      }
+.nav-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 300px;
+  background: #f1f1f1;
+  margin-top: 66px;
+  >div {
+    margin-bottom: 12px;
+    span {
+      cursor: default;
     }
-
-    .excess {
-      right: 0;
+    .el-divider {
+      background-color: #959595;
+      width: 2px;
+      margin: 0 16px;
     }
   }
-
-  .record {
-    font-size: 10px;
-    margin-top: 16px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  a {
-    cursor: pointer;
+  .copyright {
+    width: 100%;
+    height: 26px;
+    line-height: 26px;
+    font-size: 14px;
   }
 }
 </style>

@@ -30,6 +30,6 @@ export default {
 
 .admin-home {
   width: 1280px;
-  margin-top: 126px;
+  margin: 126px 0;
 }
 </style>

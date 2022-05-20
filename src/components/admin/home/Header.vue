@@ -2,7 +2,7 @@
   <header>
     <div class="user-avatar">
       <div class="avatar left">
-        <a href="javascript:;" class="user">
+        <a href="/personalCenter" class="user">
           <img :src="defaultAvatar" alt="">
           <h2>{{ username }}</h2>
         </a>
@@ -10,17 +10,17 @@
     </div>
     <div class="links">
       <div class="link text">
-        <a href="/adminHome/dataShow">
+        <a href="/dataShow">
           首页
         </a>
       </div>
       <div class="link text">
-        <a href="/adminHome/userManagement">
+        <a href="/userList">
           用户管理
         </a>
       </div>
       <div class="link text">
-        <a href="javascript:;">
+        <a href="/personalCenter">
           个人中心
         </a>
       </div>

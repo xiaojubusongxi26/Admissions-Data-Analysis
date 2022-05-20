@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <nav-header class="header"></nav-header>
-    <router-view class="body"></router-view>
-    <nav-footer class="footer"></nav-footer>
+    <nav-header></nav-header>
+    <router-view></router-view>
+    <nav-footer></nav-footer>
   </div>
 </template>
 
@@ -12,39 +12,25 @@ import NavFooter from '../components/common/NavFooter.vue'
 export default {
   components: {
     NavHeader,
-    NavFooter,
+    NavFooter
   },
   props: {},
-  data() {
+  data () {
     return {}
   },
   watch: {},
   computed: {},
   methods: {},
-  created() {},
-  mounted() {},
+  created () {},
+  mounted () {}
 }
 </script>
 <style lang="scss" scoped>
 .container {
+  display: flex;
+  justify-content: center;
   width: 1280px;
   margin: 0 auto;
-
-  .header {
-    line-height: 100px;
-    height: 100px;
-    margin-bottom: -100px;
-  }
-
-  .body {
-    min-height: 100%;
-    padding-top: 100px;
-    padding-bottom: 100px;
-  }
-
-  .footer {
-    height: 100px;
-    margin-top: -100px;
-  }
+  flex-direction: column;
 }
 </style>
