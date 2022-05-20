@@ -31,5 +31,6 @@ export default {
   justify-content: center;
   width: 1280px;
   margin: 0 auto;
+  flex-direction: column;
 }
 </style>

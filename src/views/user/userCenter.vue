@@ -78,6 +78,7 @@ export default {
 .personal-center {
   width: 100%;
   height: 650px;
+  margin-bottom: 66px;
   background: #ffffff;
   border-radius: 4px;
   box-shadow: 8px -5px 7px 0 rgb(189 189 189 / 20%), -4px 5px 12px 0 rgb(203 203 203 / 19%);

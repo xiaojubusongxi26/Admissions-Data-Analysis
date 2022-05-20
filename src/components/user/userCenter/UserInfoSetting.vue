@@ -17,8 +17,6 @@
           type="text"
           placeholder="请输入内容"
           v-model="changeUserInfo.userFullName"
-          maxlength="10"
-          show-word-limit
         ></el-input>
       </div>
     </div>
@@ -64,8 +62,6 @@
           type="text"
           placeholder="未设置"
           v-model="changeUserInfo.userScore"
-          maxlength="10"
-          show-word-limit
         ></el-input>
       </div>
     </div>
@@ -78,8 +74,6 @@
           type="text"
           placeholder="未设置"
           v-model="changeUserInfo.userCity"
-          maxlength="10"
-          show-word-limit
         ></el-input>
       </div>
     </div>
@@ -135,7 +129,9 @@ export default {
     // 保存管理员用户信息
     saveAdminInfo () {},
     // 管理员退出登录
-    signOut () {}
+    signOut () {
+      this.$router.push('/login')
+    }
   },
   created () {},
   mounted () {}

@@ -33,7 +33,7 @@
             v-model="verification">
             <button class="send" @click="sendVerification()">发送验证码</button>
           </div>
-          <button @click="resetPwd()">重置密码</button>
+          <button @click="forgetPwd()">重置密码</button>
         </div>
         <!-- 重置密码 -->
         <div class="info" v-if="isLog === 2">
@@ -50,6 +50,21 @@
       </div>
     </div>
     <div class="login_foot"></div>
+    <el-dialog title="第一次登录请修改初始密码" :visible.sync="dialogVisible" width="30%">
+      <el-form ref="form" :model="form" label-width="100px">
+        <el-form-item label="新密码：">
+          <el-input v-model="form.setPw"></el-input>
+        </el-form-item>
+        <el-form-item label="确认新密码：">
+          <el-input v-model="form.setPwTwo"></el-input>
+        </el-form-item>
+        <span>注：密码必须包含数字，大小写字母，以及特殊符号。且长度在8-12个字符之间</span>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="resetPwd()">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -75,19 +90,38 @@ export default {
 
       // 判断验证码是否正确，进行重置密码
       isVerificationTrue: false,
-      // 重置密码
+      // 找回密码
       newPwd: '',
       newPwdSecond: '',
       isNewPwdFocus: false,
-      isNewPwdSecondFocus: false
+      isNewPwdSecondFocus: false,
+
+      // 判断用户密码是否为纯数字，是则比如按要求修改初始密码
+      dialogVisible: true,
+      form: {
+        setPw: '',
+        setPwTwo: ''
+      }
     }
   },
   methods: {
     login () {
+      // 先判断是否是管理员登录，其次普通用户
+      this.$router.push('/userIndex')
+      /*
+        普通用户密码正确后，判断是否为纯数字的初始密码
+        是则将dialogVisible设置为true
+        让用户重置密码成功后再跳转主页
+        */
     },
-    // 重置密码
-    resetPwd () {
+    // 忘记密码
+    forgetPwd () {
       this.isLog = 2
+    },
+    // 重置初始密码
+    resetPwd () {
+      // 校验规则如上
+      this.$router.push('/userIndex')
     },
     // 发送验证码
     sendVerification () {},
@@ -259,6 +293,15 @@ export default {
     height: 200px;
     width: 100%;
     user-select: none;
+  }
+  .el-dialog {
+    margin-top: 26vh !important;
+    max-width: 450px;
+    form {
+      span {
+        color: #9e9e9e;
+      }
+    }
   }
 }
 </style>

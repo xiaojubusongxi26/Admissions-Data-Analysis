@@ -1,10 +1,10 @@
 <template>
-  <div class="query-compare" v-if="collectTableData.length !== 0">
+  <div class="query-compare" >
     <div class="title">
       <div class="split"></div>
       <h3>收藏栏</h3>
     </div>
-    <div class="query-show">
+    <div class="query-show" v-if="collectTableData.length !== 0">
       <el-table
         :data="collectTableData"
         stripe
@@ -49,6 +49,9 @@
           </template>
         </el-table-column>
       </el-table>
+    </div>
+    <div class="text" v-else>
+      <span>暂无收藏</span>
     </div>
   </div>
 </template>
@@ -138,6 +141,12 @@ export default {
       align-items: center;
       cursor: pointer;
     }
+  }
+  .text {
+    color: #bbbbbb;
+    height: 400px;
+    line-height: 400px;
+    width: 100%;
   }
 }
 </style>

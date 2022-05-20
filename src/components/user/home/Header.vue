@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="{top: isChange}">
     <div class="user-avatar">
       <div class="avatar left">
         <router-link :to="'/userCenter/' + userInfo.userId" class="user">
@@ -10,7 +10,7 @@
     </div>
     <div class="links">
       <div class="link text">
-        <a href="/userHome">
+        <a href="/userIndex">
           首页
         </a>
       </div>
@@ -55,16 +55,30 @@ export default {
         userCity: '雪月城',
         userScore: '未设置',
         userTell: 12626262626
-      }
+      },
+      isChange: 0
     }
   },
   watch: {},
   computed: {},
-  methods: {},
+  methods: {
+    initHeight () {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      this.isChange = scrollTop > 70 ? 1 : 0
+    }
+  },
   created () {},
-  mounted () {}
+  mounted () {
+    window.addEventListener('scroll', this.initHeight)
+  }
 }
 </script>
 <style lang="scss" scoped>
 @import '@/assets/scss/common/nav.scss';
+.top {
+  top: 0;
+}
+.top2 {
+  top: 70px;
+}
 </style>

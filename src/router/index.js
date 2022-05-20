@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect: '/analysisQuery',
+    redirect: '/userIndex',
     component: () => import('@/views/index.vue'),
     children: [
       {
@@ -71,9 +71,14 @@ const routes = [
       },
       {
         path: '/userHome',
-        name: '用户主页',
+        name: '用户',
         component: () => import('@/views/user/userHome.vue'),
         children: [
+          {
+            path: '/userIndex',
+            name: '用户主页',
+            component: () => import('@/views/user/userIndex.vue')
+          },
           {
             path: '/analysisQuery',
             name: '分析查询',
@@ -81,7 +86,7 @@ const routes = [
           },
           {
             path: '/dataDisplay',
-            name: '大屏展示',
+            name: '展示大厅',
             component: () => import('@/views/user/dataDisplay.vue')
           },
           {

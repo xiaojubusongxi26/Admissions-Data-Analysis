@@ -18,8 +18,6 @@ export default {
   },
   data () {
     return {
-      // 默认头像
-      defaultAvatar: require('@/assets/images/default/avatar/头像男三.png')
     }
   }
 }
@@ -30,6 +28,6 @@ export default {
 
 .user-home {
   width: 1280px;
-  margin: 126px 0;
+  margin: 126px 0 0;
 }
 </style>

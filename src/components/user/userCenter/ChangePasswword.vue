@@ -87,10 +87,10 @@ export default {
     // 发送验证码
     sendVerifyCode () {
       // 校验手机号邮箱是否正确，0 错误，1 是手机号， 2 是邮箱
-      if (this.resetTellEmail() === 1) {
+      if (this.$validate.checkTellEmail(this.inputTellOrEmail) === 1) {
         // 向手机发送短信验证码
-      } else if (this.resetTellEmail() === 2) {
-        // 向手机号发送邮箱验证码
+      } else if (this.$validate.checkTellEmail(this.inputTellOrEmail) === 2) {
+        // 向邮箱发送验证码
       } else {
         // 手机号/邮箱没有找到，返回错误信息
         this.$message.error('手机号/邮箱输入错误')
@@ -105,50 +105,26 @@ export default {
       if (this.active === 0) {
         this.active++
       } else if (this.active === 1) {
-        if (this.resetPw()) {
+        // 校验密码
+        const msg = this.$validate.checkPw(this.newPw, this.newSecondPw)
+        if (msg === true) {
+          // 密码校验通过
           this.active++
           this.goLogin()
+        } else {
+          // 密码校验不通过
+          this.$message.warning(msg)
+          return 0
         }
-      } else if (this.active === 2) {}
+      }
     },
     goLogin () {
       setTimeout(() => {
         this.$router.push('/login')
       }, 2000)
     },
-    // 手机号邮箱校验
-    resetTellEmail () {
-      const tellTest = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
-      const emailTest = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/
-      if (tellTest.test(this.inputTellOrEmail)) {
-        // 手机号验证通过
-        return 1
-      } else if (emailTest.test(this.inputTellOrEmail)) {
-        // 邮箱验证通过
-        return 2
-      } else {
-        // 验证失败
-        return 0
-      }
-    },
     // 验证码校验
-    resetVerifyCode () {},
-    // 密码校验
-    resetPw () {
-      // 校验规则：密码必须包含数字，大小写字母，以及特殊符号。且长度在8-12个字符之间
-      const d = /^.*(?=.{8,12})(?=.*\d)(?=.*[A-Za-z]{1,})(?=.*[!@#$%^&*?]).*$/
-      if (this.newPw === '' || this.newSecondPw === '') {
-        this.$message.error('请输入密码')
-        return false
-      } else if (this.newPw !== this.newSecondPw) {
-        this.$message.error('两次输入密码不一致')
-        return false
-      } else if (!d.test(this.newPw) && !d.test(this.newSecondPw)) {
-        this.$message.error('密码格式不正确')
-        return false
-      }
-      return true
-    }
+    resetVerifyCode () {}
   },
   created () {},
   mounted () {}
