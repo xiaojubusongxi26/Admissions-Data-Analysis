@@ -20,6 +20,15 @@
       <Top></Top>
     </div>
   </div>
+  <div class="data-display">
+    <div class="title">
+      <div class="split"></div>
+      <h3>留言板</h3>
+    </div>
+    <div class="recommend-panel">
+      <MessageBoard></MessageBoard>
+    </div>
+  </div>
 </div>
 </template>
 
@@ -28,8 +37,9 @@ import Map from '@/components/user/dataDisplay/Map.vue'
 import EnrollmentPlan from '@/components/user/dataDisplay/EnrollmentPlan.vue'
 import Top from '@/components/user/dataDisplay/Top.vue'
 import SchoolRecommend from '@/components/user/dataDisplay/SchoolRecommend.vue'
+import MessageBoard from '@/components/user/dataDisplay/MessageBoard.vue'
 export default {
-  components: { Map, EnrollmentPlan, Top, SchoolRecommend },
+  components: { Map, EnrollmentPlan, Top, SchoolRecommend, MessageBoard },
   props: {},
   data () {
     return {
@@ -97,6 +107,7 @@ export default {
 .recommend-panel {
   display: flex;
   margin-top: 0 !important;
+  height: 590px;
   .school-recommend {
     flex: 7;
   }

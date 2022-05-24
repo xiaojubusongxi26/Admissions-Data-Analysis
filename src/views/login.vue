@@ -1,17 +1,18 @@
 <template>
   <div class="login">
     <div class="title">
-      <h1>高校查</h1>
+      <h1></h1>
     </div>
     <div class="login_main">
       <div class="login_info">
         <div class="info_header">
-          <span :class="{ log: isLog === 0 }" @click="isLog = 0">登录</span>
-          <span class="get-back" :class="{ log: isLog === 1 }" @click="isLog = 1">忘记密码</span>
+          <span :class="{ log: isLog === 0 }" @click="isLog = 0">密码登录</span>
+          <span class="get-back" :class="{ log: isLog === 1 }" @click="isLog = 1">验证码登录</span>
+          <span class="get-back" :class="{ log: isLog === 2 }" @click="isLog = 2">忘记密码</span>
         </div>
-        <!-- 登录 -->
+        <!-- 密码登录 -->
         <div class="info" v-if="isLog === 0">
-          <div class="input" :class="{ focus: isUserFocus || username != '' }" placeholder="用户名">
+          <div class="input" :class="{ focus: isUserFocus || username != '' }" placeholder="手机号/邮箱">
             <input type="text" @focus="isUserFocus = true" @blur="isUserFocus = false"
             v-model="username">
           </div>
@@ -22,9 +23,22 @@
           </div>
           <button @click="login()" >登录</button>
         </div>
-        <!-- 忘记密码 -->
+        <!-- 验证码登录 -->
         <div class="info"  v-if="isLog === 1">
-          <div class="input" :class="{ focus: isEmailFocus || email != '' }" placeholder="邮箱">
+          <div class="input" :class="{ focus: isEmailFocus || email != '' }" placeholder="手机号/邮箱">
+            <input type="text" @focus="isEmailFocus = true" @blur="isEmailFocus = false"
+            v-model="email">
+          </div>
+          <div class="input" :class="{ focus: isVerificationFocus || verification != '' }" placeholder="验证码">
+            <input type="text" class="verification" @focus="isVerificationFocus = true" @blur="isVerificationFocus = false"
+            v-model="verification">
+            <button class="send" @click="sendVerification()">发送验证码</button>
+          </div>
+          <button @click="login()">登录</button>
+        </div>
+        <!-- 忘记密码 -->
+        <div class="info"  v-if="isLog === 2">
+          <div class="input" :class="{ focus: isEmailFocus || email != '' }" placeholder="手机号/邮箱">
             <input type="text" @focus="isEmailFocus = true" @blur="isEmailFocus = false"
             v-model="email">
           </div>
@@ -36,7 +50,7 @@
           <button @click="forgetPwd()">重置密码</button>
         </div>
         <!-- 重置密码 -->
-        <div class="info" v-if="isLog === 2">
+        <div class="info" v-if="isLog === 3">
           <div class="input" :class="{ focus: isNewPwdFocus || newPwd != '' }" placeholder="新密码">
             <input type="password" @focus="isNewPwdFocus = true" @blur="isNewPwdFocus = false"
             v-model="newPwd">
@@ -73,7 +87,7 @@ export default {
   name: 'login',
   data () {
     return {
-      // 当前选项：0：登录，1：找回密码，2：重置密码
+      // 当前选项：0：密码登录，1：验证码，2：忘记密码，3：重置密码
       isLog: 0,
       // 输入框是否获得焦点
       isUserFocus: false,
@@ -116,7 +130,7 @@ export default {
     },
     // 忘记密码
     forgetPwd () {
-      this.isLog = 2
+      this.isLog = 3
     },
     // 重置初始密码
     resetPwd () {
@@ -139,18 +153,20 @@ export default {
     margin: 0 auto;
     height: 150px;
     position: relative;
+    background: #ffffff;
     // 网站标题
     h1 {
       position: absolute;
       left: 0;
       margin: 0;
+      width: 100%;
+      height: 150px;
       line-height: 150px;
       font-size: 80px;
       font-family:'JetLinkNewBoldB2cabfeda4f24067';
       font-weight: bolder;
-      background-image: linear-gradient(to top, #1595d4 0%, #5dc1f3 100%);
-      background-clip: text;
-      -webkit-background-clip: text;
+      background: url('~@/assets/高校查logo.png') no-repeat;
+      background-size: contain;
       color: transparent;
     }
   }
@@ -183,13 +199,14 @@ export default {
           cursor: pointer;
           user-select: none;
           padding: 0 8px;
+          font-size: 20px;
         }
         .log {
           color: #1595d4;
         }
         .get-back {
           // font-size: 18px;
-          border-left: 4px solid #5a5a5a;
+          border-left: 2px solid #5a5a5a;
         }
         .slice {
           margin: 0 15px;

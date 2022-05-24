@@ -41,16 +41,16 @@ export default {
 <style lang="scss" scoped>
 @import url('http://cdn.repository.webfont.com/webfonts/nomal/147559/46050/6285fe4bf629d812180d5c3e.css');
 ::v-deep .el-carousel {
-  height: 650px;
+  height: 590px;
   .el-carousel__container {
-    height: 650px !important;
+    height: 590px !important;
     overflow: hidden;
     .el-carousel__item  {
       // position: relative;
       img {
         object-fit: cover;
         width: 100%;
-        height: 650px;
+        height: 590px;
       }
     }
   }

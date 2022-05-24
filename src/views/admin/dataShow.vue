@@ -123,7 +123,7 @@ export default {
 .data-show {
   // margin-top: 16px;
   width: 100%;
-  height: 500px;
+  height: 560px;
   background: #ffffff;
   box-sizing: border-box;
   border-radius: 4px;

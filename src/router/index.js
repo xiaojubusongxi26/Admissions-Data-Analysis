@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect: '/userIndex',
+    redirect: '/messageCenter',
     component: () => import('@/views/index.vue'),
     children: [
       {
@@ -21,7 +21,7 @@ const routes = [
         component: () => import('@/views/admin/adminHome.vue'),
         children: [
           {
-            path: '/dataShow',
+            path: '/adminIndex',
             name: '数据展示',
             component: () => import('@/views/admin/dataShow.vue')
           },
@@ -29,6 +29,11 @@ const routes = [
             path: '/systemMaintenance',
             name: '系统维护',
             component: () => import('@/views/admin/systemMaintenance.vue')
+          },
+          {
+            path: '/messageCenter',
+            name: '消息中心',
+            component: () => import('@/views/admin/messageCenter.vue')
           },
           {
             path: '/userManagement',

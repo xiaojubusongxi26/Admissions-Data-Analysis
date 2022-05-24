@@ -49,7 +49,7 @@ export default {
   width: 100%;
   height: 300px;
   background: #f1f1f1;
-  margin-top: 66px;
+  margin-top: 46px;
   >div {
     margin-bottom: 12px;
     span {

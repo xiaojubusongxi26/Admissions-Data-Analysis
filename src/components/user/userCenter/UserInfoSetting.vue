@@ -5,7 +5,11 @@
         <span>用户名：</span>
         </div>
       <div class="userinfo-panel-show-info">
-        <span>{{ changeUserInfo.userName }}</span>
+        <el-input
+          type="text"
+          placeholder="请输入内容"
+          v-model="changeUserInfo.userName"
+        ></el-input>
       </div>
     </div>
     <div class="userinfo-panel-show">
@@ -55,6 +59,18 @@
     </div>
     <div class="userinfo-panel-show">
       <div class="userinfo-panel-show-title">
+        <span>省份：</span>
+      </div>
+      <div class="userinfo-panel-show-info">
+        <el-input
+          type="text"
+          placeholder="未设置"
+          v-model="changeUserInfo.userAddress"
+        ></el-input>
+      </div>
+    </div>
+    <div class="userinfo-panel-show">
+      <div class="userinfo-panel-show-title">
         <span>分数：</span>
       </div>
       <div class="userinfo-panel-show-info">
@@ -62,18 +78,6 @@
           type="text"
           placeholder="未设置"
           v-model="changeUserInfo.userScore"
-        ></el-input>
-      </div>
-    </div>
-    <div class="userinfo-panel-show">
-      <div class="userinfo-panel-show-title">
-        <span>城市：</span>
-      </div>
-      <div class="userinfo-panel-show-info">
-        <el-input
-          type="text"
-          placeholder="未设置"
-          v-model="changeUserInfo.userCity"
         ></el-input>
       </div>
     </div>
@@ -101,7 +105,7 @@ export default {
         userRole: '普通用户',
         // 1为启用，0为注销
         userState: 0,
-        userCity: '雪月城',
+        userAddress: '四川',
         userScore: '',
         userTell: 12626262626
       },
@@ -117,7 +121,7 @@ export default {
         userRole: '普通用户',
         // 1为启用，0为注销
         userState: 0,
-        userCity: '雪月城',
+        userAddress: '四川',
         userScore: '',
         userTell: 12626262626
       }

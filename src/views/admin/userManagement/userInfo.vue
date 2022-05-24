@@ -71,12 +71,24 @@
       <div class="user-info-show">
         <div class="user-info-title">
           <span>
-            城市：
+          省份：
           </span>
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.userCity }}
+            {{ userInfo.userAddress }}
+          </span>
+        </div>
+      </div>
+      <div class="user-info-show">
+        <div class="user-info-title">
+          <span>
+            分数：
+          </span>
+        </div>
+        <div class="user-info-data">
+          <span>
+            {{ userInfo.userScore }}
           </span>
         </div>
       </div>
@@ -114,18 +126,6 @@
           <el-tag size="small" v-else type="danger">注销</el-tag>
         </div>
       </div>
-      <div class="user-info-show">
-        <div class="user-info-title">
-          <span>
-            分数：
-          </span>
-        </div>
-        <div class="user-info-data">
-          <span>
-            {{ userInfo.userScore }}
-          </span>
-        </div>
-      </div>
       <el-button type="primary" @click="goUserList()">返回</el-button>
     </div>
   </div>
@@ -149,7 +149,7 @@ export default {
         userEmail: '126@lihanyi.com',
         userRole: '管理员',
         userState: 0,
-        userCity: '雪月城',
+        userAddress: '四川',
         userScore: '未设置',
         userTell: 12626262626
       },
