@@ -78,7 +78,7 @@
             分数：
           </span>
         </div>
-        <div class="user-info-data">
+        <div class="usdivinfo-data">
           <span>
             {{ userInfo.userScore }}
           </span>
