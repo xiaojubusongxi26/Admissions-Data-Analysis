@@ -1,105 +1,99 @@
 <template>
   <div class="user-info">
-    <adminSidebar
-    :userInfo="userInfo"
-    ></adminSidebar>
+    <adminSidebar :userInfo="userInfo"></adminSidebar>
     <div class="info">
       <h3>{{ $route.name }}</h3>
       <div class="user-info-show user-info-show-avatar">
         <div class="user-info-title">
-          <span>
-            头像：
-          </span>
+          <span> 头像： </span>
         </div>
         <div class="user-info-data user-avatar">
           <!-- <img :src='userInfo.userAvatar' alt=""> -->
           <el-image
             style="width: 100px; height: 100px"
-            :src="userInfo.userAvatar"
-            :preview-src-list="srcList">
+            :src="userInfo.avatar"
+            :preview-src-list="userInfo.avatar"
+          >
           </el-image>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            用户名：
-          </span>
+          <span> 用户名： </span>
         </div>
         <div class="user-info-data">
-          <el-input v-model="changeUserInfo.userName" placeholder="请输入内容"></el-input>
+          <el-input
+            v-model="changeUserInfo.username"
+            placeholder="请输入内容"
+          ></el-input>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            姓名：
-          </span>
+          <span> 姓名： </span>
         </div>
         <div class="user-info-data">
-          <el-input v-model="changeUserInfo.userFullName" placeholder="请输入内容"></el-input>
+          <el-input
+            v-model="changeUserInfo.name"
+            placeholder="请输入内容"
+          ></el-input>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            邮箱：
-          </span>
+          <span> 邮箱： </span>
         </div>
         <div class="user-info-data">
-          <el-input v-model="changeUserInfo.userEmail" placeholder="请输入内容"></el-input>
+          <el-input
+            v-model="changeUserInfo.email"
+            placeholder="请输入内容"
+          ></el-input>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            手机号：
-          </span>
+          <span> 手机号： </span>
         </div>
         <div class="user-info-data">
-          <el-input v-model="changeUserInfo.userTell" placeholder="请输入内容"></el-input>
+          <el-input
+            v-model="changeUserInfo.phone"
+            placeholder="请输入内容"
+          ></el-input>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            省份：
-          </span>
+          <span> 省份： </span>
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.userAddress }}
+            {{ userInfo.province }}
           </span>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            分数：
-          </span>
+          <span> 分数： </span>
         </div>
-        <div class="usdivinfo-data">
+        <div class="user-info-data">
           <span>
-            {{ userInfo.userScore }}
+            {{ userInfo.score }}
           </span>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            性别：
-          </span>
+          <span> 性别： </span>
         </div>
         <div class="user-info-data user-info-sex">
-          <el-radio v-model="changeUserInfo.userSex" label="0">男</el-radio>
-          <el-radio v-model="changeUserInfo.userSex" label="1">女</el-radio>
+          <el-radio v-model="changeUserInfo.sex" :label="0">男</el-radio>
+          <el-radio v-model="changeUserInfo.sex" :label="1">女</el-radio>
+          <el-radio v-model="changeUserInfo.sex" :label="-1">保密</el-radio>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            角色：
-          </span>
+          <span> 角色： </span>
         </div>
         <div class="user-info-data">
           <span>
@@ -109,18 +103,16 @@
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            状态：
-          </span>
+          <span> 状态： </span>
         </div>
         <div class="user-info-data">
-          <el-tag v-if="userInfo.userState">启用</el-tag>
+          <el-tag v-if="userInfo.status">启用</el-tag>
           <el-tag v-else type="danger">注销</el-tag>
         </div>
       </div>
       <div class="user-info-btn">
-        <el-button type="primary" @click="saveRevise()">保存</el-button>
-        <el-button type="primary" @click="goUserList()">返回</el-button>
+        <el-button type="primary" @click="saveRevise">保存</el-button>
+        <el-button type="primary" @click="goUserList">返回</el-button>
       </div>
     </div>
   </div>
@@ -130,46 +122,94 @@
 import adminSidebar from '@/components/admin/userManagement/adminSidebar.vue'
 export default {
   components: {
-    adminSidebar
+    adminSidebar,
   },
   props: {},
-  data () {
+  data() {
     return {
-      userInfo: {
-        userId: '1001',
-        userAvatar: require('@/assets/images/default/avatar/头像男三.png'),
-        userName: '风花雪月',
-        userFullName: '李寒衣',
-        // 1是男，2女
-        userSex: '1',
-        userEmail: '126@lihanyi.com',
-        userRole: '管理员',
-        // 1为启用，0为注销
-        userState: 0,
-        userAddress: '四川',
-        userScore: '未设置',
-        userTell: 12626262626
-      },
+      userInfo: '',
       // 可更改的用户信息
-      changeUserInfo: {
-      },
+      changeUserInfo: '',
       // element大图预览
-      srcList: [
-        require('@/assets/images/default/avatar/头像男三.png')
-      ]
+      defaultManImg: this.$store.getters.getDefaultManImg,
+      defaultWomanImg: this.$store.getters.getDefaultWomanImg,
+      defaultSecrecyImg: this.$store.getters.getDefaultSecrecyImg,
     }
   },
   watch: {},
   computed: {},
   methods: {
-    goUserList () {
+    // 跳转到用户列表页面
+    goUserList() {
       this.$router.push('/userList')
-    }
+    },
+    saveRevise() {
+      this.updateUserInfo()
+        .then(({ data }) => {
+          console.log(data)
+          this.$message({
+            type: 'success',
+            message: '用户信息修改成功',
+          })
+          this.initUserInfo()
+        })
+        .catch(() => {
+          this.$message({
+            type: 'error',
+            message: '用户信息修改失败',
+          })
+        })
+    },
+    // 初始化用户信息
+    initUserInfo() {
+      this.userId = this.$route.params.id
+      this.getUserInfo().then(({ data }) => {
+        console.log(data)
+        this.userInfo = data.userTb
+        if (this.userInfo.avatar === null) {
+          if (this.userInfo.sex === 0) {
+            this.userInfo.avatar = this.defaultManImg
+          } else if (this.userInfo.sex === 1) {
+            this.userInfo.avatar = this.defaultWomanImg
+          } else {
+            this.userInfo.avatar = this.defaultSecrecyImg
+          }
+        }
+
+        if (this.userInfo.province === '') {
+          this.userInfo.province = '中国'
+        }
+        this.changeUserInfo = this.userInfo
+      })
+    },
+    // 获取用户信息
+    async getUserInfo() {
+      const data = await this.$axios({
+        url: 'gxc/usertb/info/' + this.userId,
+        method: 'post',
+      })
+
+      return data
+    },
+    async updateUserInfo() {
+      const data = await this.$axios({
+        url: 'gxc/usertb/updateUserById',
+        method: 'post',
+        data: {
+          userId: this.changeUserInfo.userId,
+          email: this.changeUserInfo.email,
+          name: this.changeUserInfo.name,
+          sex: this.changeUserInfo.sex,
+          username: this.changeUserInfo.username,
+        },
+      })
+      return data
+    },
   },
-  created () {
-    this.changeUserInfo = this.userInfo
+  created() {
+    this.initUserInfo()
   },
-  mounted () {}
+  mounted() {},
 }
 </script>
 <style lang="scss" scoped>

@@ -96,7 +96,7 @@ export default {
     return {
       userInfo: {
         userId: '1001',
-        userAvatar: require('@/assets/images/default/avatar/头像男三.png'),
+        userAvatar: require('@/assets/images/default/avatar/默认头像-男.png'),
         userName: '风花雪月',
         userFullName: '李寒衣',
         // 1是男，2女
@@ -112,7 +112,7 @@ export default {
       // 绑定的用户对象
       changeUserInfo: {
         userId: '1001',
-        userAvatar: require('@/assets/images/default/avatar/头像男三.png'),
+        userAvatar: require('@/assets/images/default/avatar/默认头像-男.png'),
         userName: '风花雪月',
         userFullName: '李寒衣',
         // 1是男，2女

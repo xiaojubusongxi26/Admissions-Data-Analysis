@@ -6,15 +6,16 @@
     </div>
     <div class="personal">
       <div class="avatar-panel">
-        <img :src="imageUrl" class="mosk-log" alt="">
+        <img :src="imageUrl" class="mosk-log" alt="" />
         <div class="avatar-show">
           <el-upload
             class="avatar-uploader"
             action="https://jsonplaceholder.typicode.com/posts/"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
@@ -68,38 +69,47 @@
 export default {
   components: {},
   props: {},
-  data () {
+  data() {
     return {
       adminName: 'xiekanhua26',
       adminFullName: '谢看花',
-      imageUrl: require('@/assets/images/default/avatar/mmexport1639710400520.png')
+      imageUrl: require('@/assets/images/default/avatar/mmexport1639710400520.png'),
     }
   },
   watch: {},
   computed: {},
   methods: {
-    handleAvatarSuccess (res, file) {
+    handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw)
     },
-    beforeAvatarUpload (file) {
+    beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isPNG = file.type === 'image/png'
+      const isLt4M = file.size / 1024 / 1024 < 4
+      alert(file.type)
 
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+      if (!isJPG && !isPNG) {
+        this.$message.error('上传头像图片只能是 JPG/PNG 格式!')
       }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
+      if (!isLt4M) {
+        this.$message.error('上传头像图片大小不能超过 4MB!')
       }
-      return isJPG && isLt2M
+      return isJPG && isLt4M
     },
     // 保存管理员用户信息
-    saveAdminInfo () {},
+    saveAdminInfo() {},
     // 管理员退出登录
-    signOut () {}
+    signOut() {},
+    async getAdminInfo() {
+      const data = await this.$axios({
+        url: 'gxc/usertb/info/83',
+        method: 'post',
+      })
+      return data
+    },
   },
-  created () {},
-  mounted () {}
+  created() {},
+  mounted() {},
 }
 </script>
 <style lang="scss" scoped>
@@ -108,8 +118,9 @@ export default {
   height: 500px;
   background: #ffffff;
   border-radius: 4px;
-  box-shadow: 8px -5px 7px 0 rgb(189 189 189 / 20%), -4px 5px 12px 0 rgb(203 203 203 / 19%);
-  .title{
+  box-shadow: 8px -5px 7px 0 rgb(189 189 189 / 20%),
+    -4px 5px 12px 0 rgb(203 203 203 / 19%);
+  .title {
     box-sizing: border-box;
     padding: 0 10px;
     width: 100%;
@@ -172,7 +183,7 @@ export default {
           overflow: hidden;
         }
         .avatar-uploader .el-upload:hover {
-          border-color: #409EFF;
+          border-color: #409eff;
         }
         .avatar-uploader-icon {
           font-size: 28px;

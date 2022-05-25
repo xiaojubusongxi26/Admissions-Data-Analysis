@@ -1,113 +1,95 @@
 <template>
   <div class="user-info">
-    <adminSidebar
-    :userInfo="userInfo"
-    ></adminSidebar>
+    <adminSidebar :userInfo="userInfo"></adminSidebar>
     <div class="info">
       <h3>{{ $route.name }}</h3>
       <div class="user-info-show user-info-show-avatar">
         <div class="user-info-title">
-          <span>
-            头像：
-          </span>
+          <span> 头像： </span>
         </div>
         <div class="user-info-data user-avatar">
           <!-- <img :src='userInfo.userAvatar' alt=""> -->
           <el-image
             style="width: 100px; height: 100px"
-            :src="userInfo.userAvatar"
-            :preview-src-list="srcList">
+            :src="userInfo.avatar"
+            :preview-src-list="userInfo.avatar"
+          >
           </el-image>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            用户名：
-          </span>
+          <span> 用户名： </span>
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.userName }}
+            {{ userInfo.username }}
           </span>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            姓名：
-          </span>
+          <span> 姓名： </span>
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.userFullName }}
+            {{ userInfo.name }}
           </span>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            邮箱：
-          </span>
+          <span> 邮箱： </span>
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.userEmail }}
+            {{ userInfo.email }}
           </span>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            手机号：
-          </span>
+          <span> 手机号： </span>
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.userTell }}
+            {{ userInfo.phone }}
           </span>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-          省份：
-          </span>
+          <span> 省份： </span>
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.userAddress }}
+            {{ userInfo.province }}
           </span>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            分数：
-          </span>
+          <span> 分数： </span>
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.userScore }}
+            {{ userInfo.score }}
           </span>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            性别：
-          </span>
+          <span> 性别： </span>
         </div>
         <div class="user-info-data">
-          <span v-if="userInfo.userSex === '0'">男</span>
+          <span v-if="userInfo.sex === 0">男</span>
+          <span v-if="userInfo.sex === -1">保密</span>
           <span v-else>女</span>
         </div>
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            角色：
-          </span>
+          <span> 角色： </span>
         </div>
         <div class="user-info-data">
           <span>
@@ -117,12 +99,14 @@
       </div>
       <div class="user-info-show">
         <div class="user-info-title">
-          <span>
-            状态：
-          </span>
+          <span> 状态： </span>
         </div>
         <div class="user-info-data">
-          <el-tag size="small" v-if="userInfo.userState">启用</el-tag>
+          <el-tag
+            size="small"
+            v-if="userInfo.status === -1 || userInfo.status === -2"
+            >启用</el-tag
+          >
           <el-tag size="small" v-else type="danger">注销</el-tag>
         </div>
       </div>
@@ -135,39 +119,57 @@
 import adminSidebar from '@/components/admin/userManagement/adminSidebar.vue'
 export default {
   components: {
-    adminSidebar
+    adminSidebar,
   },
   props: {},
-  data () {
+  data() {
     return {
-      userInfo: {
-        userId: '1001',
-        userAvatar: require('@/assets/images/default/avatar/头像男三.png'),
-        userName: '风花雪月',
-        userFullName: '李寒衣',
-        userSex: '1',
-        userEmail: '126@lihanyi.com',
-        userRole: '管理员',
-        userState: 0,
-        userAddress: '四川',
-        userScore: '未设置',
-        userTell: 12626262626
-      },
+      userId: '',
+      userInfo: '',
       // element大图预览
-      srcList: [
-        require('@/assets/images/default/avatar/头像男三.png')
-      ]
+      defaultManImg: this.$store.getters.getDefaultManImg,
+      defaultWomanImg: this.$store.getters.getDefaultWomanImg,
+      defaultSecrecyImg: this.$store.getters.getDefaultSecrecyImg,
     }
   },
   watch: {},
   computed: {},
   methods: {
-    goUserList () {
+    // 跳转到用户列表页面
+    goUserList() {
       this.$router.push('/userList')
-    }
+    },
+    // 初始化用户信息
+    initUserInfo() {
+      this.userId = this.$route.params.id
+      this.getUserInfo().then(({ data }) => {
+        console.log(data)
+        this.userInfo = data.userTb
+        if (this.userInfo.avatar === null) {
+          if (this.userInfo.sex === 0) {
+            this.userInfo.avatar = this.defaultManImg
+          } else if (this.userInfo.sex === 1) {
+            this.userInfo.avatar = this.defaultWomanImg
+          } else {
+            this.userInfo.avatar = this.defaultSecrecyImg
+          }
+        }
+      })
+    },
+    // 获取用户信息
+    async getUserInfo() {
+      const data = await this.$axios({
+        url: 'gxc/usertb/info/' + this.userId,
+        method: 'post',
+      })
+
+      return data
+    },
   },
-  created () {},
-  mounted () {}
+  created() {
+    this.initUserInfo()
+  },
+  mounted() {},
 }
 </script>
 <style lang="scss" scoped>

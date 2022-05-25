@@ -144,13 +144,6 @@
         </el-descriptions-item>
         <el-descriptions-item>
           <template slot="label">
-            <i class="el-icon-s-custom"></i>
-            角色
-          </template>
-          {{ item.userRole }}
-        </el-descriptions-item>
-        <el-descriptions-item>
-          <template slot="label">
             <i class="el-icon-tickets"></i>
             状态
           </template>

@@ -47,7 +47,7 @@ export default {
   data () {
     return {
       // 默认头像
-      defaultAvatar: require('@/assets/images/default/avatar/头像男三.png'),
+      defaultAvatar: require('@/assets/images/default/avatar/默认头像-男.png'),
       username: '谢看花🌸',
       isChange: 0
     }

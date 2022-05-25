@@ -15,7 +15,10 @@ const state = {
     userBg: null
   },
   today: '',
-  token: localStorage.getItem('token') ? localStorage.getItem('token') : '' // token
+  token: localStorage.getItem('token') ? localStorage.getItem('token') : '', // token
+  defaultManImg: require('@/assets/images/default/avatar/默认头像-男.png'),
+  defaultWomanImg: require('@/assets/images/default/avatar/默认头像-女.png'),
+  defaultSecrecyImg: require('@/assets/images/default/avatar/defaultSecrecyImg.png'),
 }
 
 export default new Vuex.Store({
@@ -38,5 +41,16 @@ export default new Vuex.Store({
     }
   },
   modules: {
+  },
+  getters: {
+    getDefaultManImg: state => {
+      return state.defaultManImg
+    },
+    getDefaultWomanImg: state => {
+      return state.defaultWomanImg
+    },
+    getDefaultSecrecyImg: state => {
+      return state.defaultSecrecyImg
+    }
   }
 })
