@@ -55,8 +55,8 @@ export default {
           { required: true, message: '请输入用户名', trigger: 'change' },
           {
             min: 3,
-            max: 5,
-            message: '用户名长度在 3 到 5 个字符',
+            max: 12,
+            message: '用户名长度在 3 到 12 个字符',
             trigger: 'change',
           },
         ],
@@ -118,16 +118,19 @@ export default {
       this.$refs[formName].resetFields()
     },
     async createUser() {
+      const userTb = {
+        email: this.ruleForm.userEmail,
+        phone: this.ruleForm.userTell,
+        username: this.ruleForm.userName,
+        name: this.ruleForm.userFullName,
+        sex: this.ruleForm.userSex === '男' ? 0 : 1,
+      }
       const data = await this.$axios({
         url: '/register/singleRegister',
         method: 'post',
         data: {
-          email: this.ruleForm.userEmail,
-          phone: this.ruleForm.userTell,
-          username: this.ruleForm.userName,
-          name: this.ruleForm.userFullName,
-          sex: this.ruleForm.userSex === '男' ? 0 : 1,
-          password: this.$randomCreatePassword.createPassword(),
+          userTb: userTb,
+          role_id: 1
         },
       })
 

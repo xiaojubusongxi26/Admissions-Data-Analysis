@@ -12,13 +12,13 @@
         </div>
         <!-- 密码登录 -->
         <div class="info" v-if="isLog === 0">
-          <div class="input" :class="{ focus: isUserFocus || username != '' }" placeholder="手机号/邮箱">
+          <div class="input" :class="{ focus: isUserFocus || inputUser != '' }" placeholder="手机号/邮箱">
             <input type="text" @focus="isUserFocus = true" @blur="isUserFocus = false"
-            v-model="username">
+            v-model="inputUser">
           </div>
           <div class="input" :class="{ focus: isPassFocus || password != '' }" placeholder="密码">
             <input class="password_input" type="password" @focus="isPassFocus = true" @blur="isPassFocus = false"
-            v-model="password" @keydown.enter="login()">
+            v-model="inputPwd" @keydown.enter="login()">
             <el-checkbox v-model="isRememberPwd" text-color="#1595d4" fill="#1595d4">记住密码</el-checkbox>
           </div>
           <button @click="login()" >登录</button>
@@ -95,6 +95,9 @@ export default {
       isEmailFocus: false,
       isVerificationFocus: false,
 
+      // 用户输入的邮箱/手机号和密码
+      inputUser: '',
+      inputPwd: '',
       username: '',
       password: '',
       email: '',
@@ -111,7 +114,7 @@ export default {
       isNewPwdSecondFocus: false,
 
       // 判断用户密码是否为纯数字，是则比如按要求修改初始密码
-      dialogVisible: true,
+      dialogVisible: false,
       form: {
         setPw: '',
         setPwTwo: ''
@@ -121,12 +124,22 @@ export default {
   methods: {
     login () {
       // 先判断是否是管理员登录，其次普通用户
-      this.$router.push('/userIndex')
+      // this.$router.push('/userIndex')
       /*
         普通用户密码正确后，判断是否为纯数字的初始密码
         是则将dialogVisible设置为true
         让用户重置密码成功后再跳转主页
         */
+      this.$axios({
+        method: 'post',
+        url: '/login/validPasswordWithEmail',
+        data: {
+          account: this.inputUser,
+          password: this.inputPwd
+        }
+      }).then(res => {
+        console.log(res.data)
+      })
     },
     // 忘记密码
     forgetPwd () {

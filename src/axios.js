@@ -10,7 +10,7 @@ var s = window.location.toString()
 var s1 = s.substr(7, s.length)
 var s2 = s1.indexOf('/')
 s = s.substr(0, 8 + s2)
-var a = 'http://localhost:9090/'
+var a = 'http://localhost:9090/api/'
 
 // 配置默认前缀
 axios.defaults.baseURL = a

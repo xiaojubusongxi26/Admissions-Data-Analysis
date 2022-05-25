@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect: '/messageCenter',
+    redirect: '/login',
     component: () => import('@/views/index.vue'),
     children: [
       {
