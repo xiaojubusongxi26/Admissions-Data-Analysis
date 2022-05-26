@@ -16,8 +16,8 @@ const state = {
   },
   today: '',
   token: localStorage.getItem('token') ? localStorage.getItem('token') : '', // token
-  defaultManImg: require('@/assets/images/default/avatar/默认头像-男.png'),
-  defaultWomanImg: require('@/assets/images/default/avatar/默认头像-女.png'),
+  defaultManImg: require('@/assets/images/default/avatar/defaultManImg.png'),
+  defaultWomanImg: require('@/assets/images/default/avatar/defaultWomanImg.png'),
   defaultSecrecyImg: require('@/assets/images/default/avatar/defaultSecrecyImg.png'),
 }
 
