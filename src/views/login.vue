@@ -16,7 +16,7 @@
             <input type="text" @focus="isUserFocus = true" @blur="isUserFocus = false"
             v-model="inputUser">
           </div>
-          <div class="input" :class="{ focus: isPassFocus || password != '' }" placeholder="密码">
+          <div class="input" :class="{ focus: isPassFocus || inputPwd != '' }" placeholder="密码">
             <input class="password_input" type="password" @focus="isPassFocus = true" @blur="isPassFocus = false"
             v-model="inputPwd" @keydown.enter="login()">
             <el-checkbox v-model="isRememberPwd" text-color="#1595d4" fill="#1595d4">记住密码</el-checkbox>
@@ -25,27 +25,27 @@
         </div>
         <!-- 验证码登录 -->
         <div class="info"  v-if="isLog === 1">
-          <div class="input" :class="{ focus: isEmailFocus || email != '' }" placeholder="手机号/邮箱">
+          <div class="input" :class="{ focus: isEmailFocus || inputUser != '' }" placeholder="手机号/邮箱">
             <input type="text" @focus="isEmailFocus = true" @blur="isEmailFocus = false"
-            v-model="email">
+            v-model="inputUser">
           </div>
           <div class="input" :class="{ focus: isVerificationFocus || verification != '' }" placeholder="验证码">
             <input type="text" class="verification" @focus="isVerificationFocus = true" @blur="isVerificationFocus = false"
             v-model="verification">
-            <button class="send" @click="sendVerification()">发送验证码</button>
+            <button class="send" @click="sendVerification()" :disabled='isProhibit'>发送验证码{{ (countTime === 60 || countTime === 0) ? null : countTime }}</button>
           </div>
           <button @click="login()">登录</button>
         </div>
         <!-- 忘记密码 -->
         <div class="info"  v-if="isLog === 2">
-          <div class="input" :class="{ focus: isEmailFocus || email != '' }" placeholder="手机号/邮箱">
+          <div class="input" :class="{ focus: isEmailFocus || inputUser != '' }" placeholder="手机号/邮箱">
             <input type="text" @focus="isEmailFocus = true" @blur="isEmailFocus = false"
-            v-model="email">
+            v-model="inputUser">
           </div>
           <div class="input" :class="{ focus: isVerificationFocus || verification != '' }" placeholder="验证码">
             <input type="text" class="verification" @focus="isVerificationFocus = true" @blur="isVerificationFocus = false"
             v-model="verification">
-            <button class="send" @click="sendVerification()">发送验证码</button>
+            <button class="send" @click="sendVerification()" :disabled="isProhibit">发送验证码{{ (countTime === 60 || countTime === 0) ? null : countTime }}</button>
           </div>
           <button @click="forgetPwd()">重置密码</button>
         </div>
@@ -59,7 +59,7 @@
             <input type="password" @focus="isNewPwdSecondFocus = true" @blur="isNewPwdSecondFocus = false"
             v-model="newPwdSecond">
           </div>
-          <button @click="changePassword()" >修改密码</button>
+          <button @click="resetPwd(newPwd, newPwdSecond, Id)" >修改密码</button>
         </div>
       </div>
     </div>
@@ -76,7 +76,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="resetPwd()">确 定</el-button>
+        <el-button type="primary" @click="resetPwd(form.setPw, form.setPwTwo, Id)">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -94,6 +94,13 @@ export default {
       isPassFocus: false,
       isEmailFocus: false,
       isVerificationFocus: false,
+      // 是否禁止发送验证码按钮
+      isProhibit: false,
+      // 验证码倒计时
+      countTime: 60,
+
+      // id
+      Id: '',
 
       // 用户输入的邮箱/手机号和密码
       inputUser: '',
@@ -101,6 +108,7 @@ export default {
       username: '',
       password: '',
       email: '',
+      // 验证码
       verification: '',
       // 是否记住密码
       isRememberPwd: false,
@@ -130,30 +138,342 @@ export default {
         是则将dialogVisible设置为true
         让用户重置密码成功后再跳转主页
         */
+      if (this.isLog === 0) {
+        // 密码登录
+        this.PwdLogin()
+      } else if (this.isLog === 1) {
+        // 验证码登录
+        this.CodeLogin()
+      }
+    },
+    // 密码登录
+    PwdLogin () {
+      console.log(this.$validate.checkTellEmail(this.inputUser))
+      if (this.inputUser === '') {
+        this.$message.warning('请输入手机号/邮箱')
+        return 0
+      } else if (this.inputPwd === '') {
+        this.$message.warning('请输入密码')
+        return 0
+      } else if (this.$validate.checkTellEmail(this.inputUser) === 0) {
+        this.$message.warning('手机号/邮箱格式有误')
+        return 0
+      } else {
+        // 校验用户输入的手机号/邮箱，并判断是哪种方式
+        const manner = this.$validate.checkTellEmail(this.inputUser) === 2 ? 'validPasswordWithEmail' : 'validPasswordWithPhone'
+        this.EmailOrTellLogin(manner)
+      }
+    },
+    // 验证码登录
+    CodeLogin () {
+      if (this.verification === '') {
+        this.$message.warning('请输入验证码')
+        return
+      }
+      if (this.$validate.checkTellEmail(this.inputUser) === 2) {
+        this.EmailCodeLogin()
+      } else if (this.$validate.checkTellEmail(this.inputUser) === 1) {
+        this.PhoneCodeLogin()
+      } else {
+        this.$message.warning('手机号/邮箱有误')
+        return 0
+      }
+    },
+    // 邮箱，密码
+    EmailOrTellLogin (manner) {
       this.$axios({
         method: 'post',
-        url: '/login/validPasswordWithEmail',
+        url: '/login/' + manner,
         data: {
           account: this.inputUser,
           password: this.inputPwd
         }
       }).then(res => {
         console.log(res.data)
+        if (res.data.code === 0) {
+          // 账号密码正确
+          this.Id = res.data.user.userId
+          // 保存用户信息
+          this.saveUserInfo(res.data)
+          if (res.data.user.roleId === 2) {
+            // 管理员登录
+            this.$message.success('登录成功')
+            this.$router.push({
+              path: '/adminIndex',
+              params: {
+                from: 'login'
+              }
+            })
+          } else if (res.data.user.roleId === 1) {
+            // 用户登录
+            // 检验是否为初始密码
+            if (this.VerifyInitialPwd(this.inputPwd)) {
+              // 是初始密码
+              this.dialogVisible = true // 展示重置密码弹窗
+            } else {
+              // 不是初始密码，直接登录
+              this.$message.success('登录成功')
+              this.$router.push({
+                path: '/userIndex',
+                params: {
+                  from: 'login'
+                }
+              })
+            }
+          }
+        } else {
+          // 展示错误信息
+          this.$message.error(res.data.msg)
+        }
       })
+    },
+    // 校验初始密码
+    VerifyInitialPwd (pwd) {
+      const d = /^[0-9]*$/
+      return d.test(pwd)
     },
     // 忘记密码
     forgetPwd () {
-      this.isLog = 3
+      if (this.verification === '') {
+        this.$message.warning('请输入验证码')
+        return
+      }
+      if (this.$validate.checkTellEmail(this.inputUser) === 2) {
+        this.$axios({
+          method: 'post',
+          url: '/login/validEmail',
+          data: {
+            email: this.inputUser,
+            verifyCode: this.verification
+          }
+        }).then(res => {
+          console.log(res.data)
+          if (res.data.code === 0) {
+            this.Id = res.data.user.userId
+            // 验证码校验正确，展示重置密码页面
+            this.isLog = 3
+          } else {
+            // 展示错误信息
+            this.$message.error(res.data.msg)
+          }
+        })
+      } else if (this.$validate.checkTellEmail(this.inputUser) === 1) {
+        this.$axios({
+          method: 'post',
+          url: '/login/validPhone',
+          data: {
+            phoneNumber: this.inputUser,
+            verifyCode: this.verification
+          }
+        }).then(res => {
+          console.log(res.data)
+          if (res.data.code === 0) {
+            this.Id = res.data.user.userId
+            // 验证码校验正确，展示重置密码页面
+            this.isLog = 3
+          } else {
+            // 展示错误信息
+            this.$message.error(res.data.msg)
+          }
+        })
+      } else {
+        this.$message.warning('手机号/邮箱有误')
+        return 0
+      }
     },
-    // 重置初始密码
-    resetPwd () {
+    // 重置密码
+    resetPwd (pwd, pwdSecond, id) {
       // 校验规则如上
-      this.$router.push('/userIndex')
+      if (pwd === '' || pwdSecond === '') {
+        this.$message.warning('请输入密码')
+        return 0
+      } else if (!this.$validate.checkPw(pwd) || !this.$validate.checkPw(pwdSecond)) {
+        console.log(pwd, pwdSecond)
+        this.$message.warning('密码格式有误')
+        return 0
+      } else if (pwd !== pwdSecond) {
+        this.$message.warning('两次输入密码不一致')
+        return 0
+      } else {
+        // 重置密码
+        this.$axios({
+          method: 'post',
+          url: '/gxc/usertb/resetPassFirstTime',
+          data: {
+            newPass: pwd,
+            userId: id
+          }
+        }).then(res => {
+          if (res.data.code === 0) {
+            // 重置密码后要求重新登录
+            this.$message.success('密码重置成功，请重新登录')
+            this.isLog = 0
+            this.inputUser = ''
+            this.inputPwd = ''
+            return 0
+          }
+        })
+      }
+      //
     },
     // 发送验证码
-    sendVerification () {},
-    // 修改密码
-    changePassword () {}
+    sendVerification () {
+      if (this.inputUser === '') {
+        this.$message.warning('请输入手机号/邮箱')
+        return 0
+      } else if (this.$validate.checkTellEmail(this.inputUser) === 0) {
+        this.$message.warning('手机号/邮箱格式有误')
+        return 0
+      } else {
+        // 校验用户输入的手机号/邮箱，并判断是哪种方式
+        if (this.$validate.checkTellEmail(this.inputUser) === 2) {
+          this.SendEmailCode()
+        } else if (this.$validate.checkTellEmail(this.inputUser) === 1) {
+          this.SendPhoneCode()
+        } else {
+          this.$message.warning('手机号/邮箱有误')
+          return 0
+        }
+      }
+    },
+    // 邮箱验证码
+    SendEmailCode () {
+      this.$axios({
+        method: 'post',
+        url: '/login/sendEmail',
+        data: {
+          email: this.inputUser
+        }
+      }).then(res => {
+        console.log(res.data)
+        if (res.data.code === 0) {
+          this.$message.success(res.data.msg)
+          // 验证码倒计时
+          this.isProhibit = true
+          this.countTime = 60
+          const inval = setInterval(
+            () => {
+              if (this.countTime === 0) {
+                this.isProhibit = false
+                clearInterval(inval)
+              } else {
+                this.isProhibit = true
+                this.countTime--
+              }
+            },
+            1000
+          )
+        } else {
+          // 展示错误信息
+          this.$message.error(res.data.msg)
+          return 0
+        }
+      })
+    },
+    // 发送手机验证码
+    SendPhoneCode () {
+      this.$axios({
+        method: 'post',
+        url: '/login/sendPhone',
+        data: {
+          phoneNumber: this.inputUser
+        }
+      }).then(res => {
+        console.log(res.data)
+        if (res.data.code === 0) {
+          this.$message.success(res.data.msg)
+        } else {
+          // 展示错误信息
+          this.$message.error(res.data.msg)
+          return 0
+        }
+      })
+    },
+    // 邮箱验证码登录
+    EmailCodeLogin () {
+      this.$axios({
+        method: 'post',
+        url: '/login/validEmail',
+        data: {
+          email: this.inputUser,
+          verifyCode: this.verification
+        }
+      }).then(res => {
+        console.log(res.data)
+        if (res.data.code === 0) {
+          this.Id = res.data.user.userId
+          // 保存用户信息
+          this.saveUserInfo(res.data)
+          if (res.data.user.roleId === 2) {
+            // 管理员登录
+            this.$router.push({
+              path: '/adminIndex',
+              params: {
+                from: 'login'
+              }
+            })
+          } else if (res.data.user.roleId === 1) {
+            // 用户登录
+            this.$router.push({
+              path: '/userIndex',
+              params: {
+                from: 'login'
+              }
+            })
+          }
+          this.$message.success('登录成功')
+        } else {
+          // 展示错误信息
+          this.$message.error(res.data.msg)
+        }
+      })
+    },
+    // 手机号验证码登录
+    PhoneCodeLogin () {
+      this.$axios({
+        method: 'post',
+        url: '/login/validPhone',
+        data: {
+          phoneNumber: this.inputUser,
+          verifyCode: this.verification
+        }
+      }).then(res => {
+        console.log(res.data)
+        if (res.data.code === 0) {
+          this.Id = res.data.user.userId
+          // 保存用户信息
+          this.saveUserInfo(res.data)
+          if (res.data.user.roleId === 2) {
+            // 管理员登录
+            this.$router.push({
+              path: '/adminIndex',
+              params: {
+                from: 'login'
+              }
+            })
+          } else if (res.data.user.roleId === 1) {
+            // 用户登录
+            this.$router.push({
+              path: '/userIndex',
+              params: {
+                from: 'login'
+              }
+            })
+          }
+          this.$message.success('登录成功')
+        } else {
+          // 展示错误信息
+          this.$message.error(res.data.msg)
+        }
+      })
+    },
+    // 保存用户信息
+    saveUserInfo (data) {
+      // 保存token
+      this.$store.commit('$_setToken', data.satoken)
+      // 保存用户角色类型
+      this.$store.dispatch('update_userRoleID', data.user.roleId)
+    }
   }
 }
 </script>
@@ -296,7 +616,7 @@ export default {
             width: 100px;
             border-radius: 5px;
             box-shadow: none;
-            cursor: pointer;
+            // cursor: pointer;
             background-image: linear-gradient(60deg, #86ccf0 0%, #6ecaf8 100%);
           }
         }

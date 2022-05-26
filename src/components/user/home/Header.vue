@@ -3,8 +3,8 @@
     <div class="user-avatar">
       <div class="avatar left">
         <router-link :to="'/userCenter/' + userInfo.userId" class="user">
-          <img :src="defaultAvatar" alt="">
-          <h2>{{ userInfo.userName }}</h2>
+          <img :src="userInfo.avatar === null ? defaultAvatar : userInfo.avatar" alt="">
+          <h2>{{ userInfo.username }}</h2>
         </router-link>
       </div>
     </div>
@@ -41,21 +41,7 @@ export default {
     return {
       // 默认头像
       defaultAvatar: require('@/assets/images/default/avatar/头像男三.png'),
-      userInfo: {
-        userId: '1001',
-        userAvatar: require('@/assets/images/default/avatar/头像男三.png'),
-        userName: '风花雪月',
-        userFullName: '李寒衣',
-        // 1是男，2女
-        userSex: '1',
-        userEmail: '126@lihanyi.com',
-        userRole: '普通用户',
-        // 1为启用，0为注销
-        userState: 0,
-        userCity: '雪月城',
-        userScore: '未设置',
-        userTell: 12626262626
-      },
+      userInfo: {},
       isChange: 0
     }
   },
@@ -67,8 +53,10 @@ export default {
       this.isChange = scrollTop > 70 ? 1 : 0
     }
   },
-  created () {},
+  created () {
+  },
   mounted () {
+    this.userInfo = this.$store.getters.getUserInfo
     window.addEventListener('scroll', this.initHeight)
   }
 }

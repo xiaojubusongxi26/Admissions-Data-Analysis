@@ -20,8 +20,25 @@ export default {
   },
   watch: {},
   computed: {},
-  methods: {},
-  created () {},
+  methods: {
+    // 获取用户个人信息，保存到store
+    getUerInfo () {
+      const hasToken = localStorage.getItem('token')
+      this.$axios({
+        method: 'post',
+        url: '/gxc/usertb/getUserByToken',
+        data: {
+          token: hasToken
+        }
+      }).then(res => {
+        console.log(res)
+        this.$store.dispatch('update_userInfo', res.data.user)
+      })
+    }
+  },
+  created () {
+    this.getUerInfo()
+  },
   mounted () {}
 }
 </script>
