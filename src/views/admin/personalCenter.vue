@@ -6,20 +6,22 @@
     </div>
     <div class="personal">
       <div class="avatar-panel">
-        <img :src="imageUrl" class="mosk-log" alt="" />
+        <img :src="admin.avatar" class="mosk-log" alt="" />
         <div class="avatar-show">
           <el-upload
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="http://192.168.3.2:9090/api/gxc/usertb/ossFile"
             :show-file-list="false"
+            name="file"
+            :headers="token"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <img v-if="admin.avatar" :src="admin.avatar" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
-        <h2>谢看花</h2>
+        <h2>{{ admin.username }}</h2>
       </div>
       <div class="userinfo-panel">
         <div class="userinfo-panel-show">
@@ -30,7 +32,7 @@
             <el-input
               type="text"
               placeholder="请输入内容"
-              v-model="adminName"
+              v-model="admin.username"
               maxlength="12"
               show-word-limit
             ></el-input>
@@ -44,7 +46,7 @@
             <el-input
               type="text"
               placeholder="请输入内容"
-              v-model="adminFullName"
+              v-model="admin.name"
               maxlength="10"
               show-word-limit
             ></el-input>
@@ -58,8 +60,8 @@
             <el-tag>管理员</el-tag>
           </div>
         </div>
-        <el-button type="primary" @click="saveAdminInfo()">保存信息</el-button>
-        <el-button type="primary" @click="signOut()">退出登录</el-button>
+        <el-button type="primary" @click="saveAdminInfo">保存信息</el-button>
+        <el-button type="primary" @click="signOut">退出登录</el-button>
       </div>
     </div>
   </div>
@@ -71,22 +73,53 @@ export default {
   props: {},
   data() {
     return {
-      adminName: 'xiekanhua26',
-      adminFullName: '谢看花',
-      imageUrl: require('@/assets/images/default/avatar/mmexport1639710400520.png'),
+      admin: '',
+      token: '',
+      defaultManImg: this.$store.getters.getDefaultManImg,
+      defaultWomanImg: this.$store.getters.getDefaultWomanImg,
+      defaultSecrecyImg: this.$store.getters.getDefaultSecrecyImg,
     }
   },
   watch: {},
   computed: {},
   methods: {
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
+    // 初始化页面
+    init() {
+      console.log(this.$store.getters.getToken)
+      this.token = JSON.parse(
+        '{"satoken": "' + this.$store.getters.getToken + '"}'
+      )
+      this.getAdminInfo().then(({ data }) => {
+        console.log(data)
+        this.admin = data.user
+
+        if (this.admin.avatar === null) {
+          if (this.admin.sex === 0) {
+            this.admin.avatar = this.defaultManImg
+          } else if (this.admin.sex === 1) {
+            this.admin.avatar = this.defaultWomanImg
+          } else {
+            this.admin.avatar = this.defaultSecrecyImg
+          }
+        }
+      })
     },
+    // 上传头像后头像 url 修改
+    handleAvatarSuccess(res, file) {
+      console.log(res)
+      this.imageUrl = URL.createObjectURL(file.raw)
+      this.$message({
+        message: '头像更新成功',
+        type: 'success',
+      })
+      const url = this.userInfo.userAvatar
+      this.userInfo.userAvatar = url
+    },
+    // 上传头像前文件格式校验
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
       const isPNG = file.type === 'image/png'
       const isLt4M = file.size / 1024 / 1024 < 4
-      alert(file.type)
 
       if (!isJPG && !isPNG) {
         this.$message.error('上传头像图片只能是 JPG/PNG 格式!')
@@ -94,21 +127,56 @@ export default {
       if (!isLt4M) {
         this.$message.error('上传头像图片大小不能超过 4MB!')
       }
-      return isJPG && isLt4M
+      return (isJPG || isPNG) && isLt4M
     },
     // 保存管理员用户信息
-    saveAdminInfo() {},
+    saveAdminInfo() {
+      this.updateAdminInfo().then(({ data }) => {
+        console.log(data)
+      })
+    },
     // 管理员退出登录
-    signOut() {},
+    signOut() {
+      this.logout().then(({ data }) => {
+        console.log(data)
+        this.$store.commit('logout')
+        this.$router.push('/login')
+      })
+    },
     async getAdminInfo() {
       const data = await this.$axios({
-        url: 'gxc/usertb/info/83',
+        url: 'gxc/usertb/info/' + this.$store.getters.getUserInfo.userId,
         method: 'post',
+      })
+
+      return data
+    },
+    async logout() {
+      const data = await this.$axios({
+        url: 'gxc/usertb/loginoutUser',
+        method: 'post',
+        data: {
+          userId: this.$store.getters.getUserInfo.userId,
+        },
+      })
+      return data
+    },
+    async updateAdminInfo() {
+      const data = await this.$axios({
+        url: 'gxc/usertb/updateUserById',
+        method: 'post',
+        data: {
+          userId: this.admin.userId,
+          name: this.admin.name,
+          username: this.admin.username,
+        },
       })
       return data
     },
   },
-  created() {},
+  created() {
+    this.init()
+  },
   mounted() {},
 }
 </script>

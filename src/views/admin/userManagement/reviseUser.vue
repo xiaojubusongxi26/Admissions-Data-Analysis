@@ -12,7 +12,6 @@
           <el-image
             style="width: 100px; height: 100px"
             :src="userInfo.avatar"
-            :preview-src-list="userInfo.avatar"
           >
           </el-image>
         </div>
@@ -165,7 +164,7 @@ export default {
       this.userId = this.$route.params.id
       this.getUserInfo().then(({ data }) => {
         console.log(data)
-        this.userInfo = data.userTb
+        this.userInfo = data.user
         if (this.userInfo.avatar === null) {
           if (this.userInfo.sex === 0) {
             this.userInfo.avatar = this.defaultManImg

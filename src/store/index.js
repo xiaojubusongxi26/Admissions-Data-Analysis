@@ -45,6 +45,15 @@ export default new Vuex.Store({
       // state.userId = value.userId
       console.log(state.userInfo)
       sessionStorage.setItem('userInfo', JSON.stringify(value))
+    },
+    logout(state, value) {
+      localStorage.setItem('token', '')
+      localStorage.setItem('userRoleID', '')
+      sessionStorage.setItem('userInfo', JSON.stringify(''))
+      state.userId = '0'
+      state.userRoleID = 0
+      state.userInfo = {}
+      state.token = ''
     }
   },
   actions: {

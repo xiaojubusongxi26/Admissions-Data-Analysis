@@ -131,7 +131,7 @@ router.beforeEach((to, from, next) => {
   const hasToken = localStorage.getItem('token')
   // 用户角色类型
   const userRoleID = Number(localStorage.getItem('userRoleID'))
-  if (hasToken !== null) {
+  if (hasToken !== null && hasToken !== '') {
     // 判断目标路径是否为login，是则回到该页面
     if (to.path === '/login') {
       if (userRoleID === 1) {

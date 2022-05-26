@@ -9,11 +9,7 @@
         </div>
         <div class="user-info-data user-avatar">
           <!-- <img :src='userInfo.userAvatar' alt=""> -->
-          <el-image
-            style="width: 100px; height: 100px"
-            :src="userInfo.avatar"
-            :preview-src-list="userInfo.avatar"
-          >
+          <el-image style="width: 100px; height: 100px" :src="userInfo.avatar">
           </el-image>
         </div>
       </div>
@@ -84,7 +80,7 @@
         <div class="user-info-data">
           <span v-if="userInfo.sex === 0">男</span>
           <span v-if="userInfo.sex === -1">保密</span>
-          <span v-else>女</span>
+          <span v-if="userInfo.sex === 1">女</span>
         </div>
       </div>
       <div class="user-info-show">
@@ -144,7 +140,7 @@ export default {
       this.userId = this.$route.params.id
       this.getUserInfo().then(({ data }) => {
         console.log(data)
-        this.userInfo = data.userTb
+        this.userInfo = data.user
         if (this.userInfo.avatar === null) {
           if (this.userInfo.sex === 0) {
             this.userInfo.avatar = this.defaultManImg
