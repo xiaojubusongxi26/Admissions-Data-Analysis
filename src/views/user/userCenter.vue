@@ -6,7 +6,7 @@
     </div>
     <div class="personal">
       <div class="avatar-panel">
-        <img :src="imageUrl" class="mosk-log" alt="">
+        <img :src="userInfo.avatar === null ? defaultAvatar : userInfo.avatar" class="mosk-log" alt="">
         <div class="avatar-show">
           <el-upload
             class="avatar-uploader"
@@ -14,11 +14,11 @@
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <img v-if="imageUrl" :src="userInfo.avatar === null ? defaultAvatar : userInfo.avatar" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
-        <h2>谢看花</h2>
+        <h2>{{ userInfo.username }}</h2>
       </div>
       <div class="userinfo-panel">
         <div class="panel-head">
@@ -46,6 +46,9 @@ export default {
     return {
       // 当前处于0 修改信息还是1 重置密码
       isState: 0,
+      userInfo: {},
+      // 默认头像
+      defaultAvatar: require('@/assets/images/default/avatar/头像男三.png'),
       adminName: 'xiekanhua26',
       adminFullName: '谢看花',
       imageUrl: require('@/assets/images/default/avatar/mmexport1639710400520.png')
@@ -70,7 +73,9 @@ export default {
       return isJPG && isLt2M
     }
   },
-  created () {},
+  created () {
+    this.userInfo = this.$store.getters.getUserInfo
+  },
   mounted () {}
 }
 </script>

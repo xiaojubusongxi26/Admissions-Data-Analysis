@@ -1,5 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// import store from '@/store/index.js'
+
+const originalPush = VueRouter.prototype.push
+const originalReplace = VueRouter.prototype.replace
+// push
+VueRouter.prototype.push = function push (location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
+}
+// replace
+VueRouter.prototype.replace = function push (location, onResolve, onReject) {
+  if (onResolve || onReject) return originalReplace.call(this, location, onResolve, onReject)
+  return originalReplace.call(this, location).catch(err => err)
+}
 
 Vue.use(VueRouter)
 
@@ -12,7 +26,7 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect: '/login',
+    // redirect: '/login',
     component: () => import('@/views/index.vue'),
     children: [
       {
@@ -109,6 +123,34 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+// 导航守卫
+router.beforeEach((to, from, next) => {
+  // 从 Cookie 获取 Token
+  const hasToken = localStorage.getItem('token')
+  // 用户角色类型
+  const userRoleID = Number(localStorage.getItem('userRoleID'))
+  if (hasToken !== null) {
+    // 判断目标路径是否为login，是则回到该页面
+    if (to.path === '/login') {
+      if (userRoleID === 1) {
+        console.log(userRoleID)
+        next({ path: '/userIndex' })
+      } else if (userRoleID === 2) {
+        next({ path: '/adminIndex' })
+      }
+    } else {
+      next()
+    }
+  } else {
+    if (to.path !== '/login') {
+      next({ path: '/login' })
+    } else {
+      next()
+    }
+  }
+  return false
 })
 
 export default router

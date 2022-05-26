@@ -8,7 +8,7 @@
         <el-input
           type="text"
           placeholder="请输入内容"
-          v-model="changeUserInfo.userName"
+          v-model="changeUserInfo.username"
         ></el-input>
       </div>
     </div>
@@ -20,7 +20,7 @@
         <el-input
           type="text"
           placeholder="请输入内容"
-          v-model="changeUserInfo.userFullName"
+          v-model="changeUserInfo.name"
         ></el-input>
       </div>
     </div>
@@ -32,7 +32,7 @@
         <el-input
           type="text"
           placeholder="请输入内容"
-          v-model="changeUserInfo.userEmail"
+          v-model="changeUserInfo.email"
         ></el-input>
       </div>
     </div>
@@ -44,7 +44,7 @@
         <el-input
           type="text"
           placeholder="请输入内容"
-          v-model="changeUserInfo.userTell"
+          v-model="changeUserInfo.phone"
         ></el-input>
       </div>
     </div>
@@ -53,8 +53,8 @@
         <span>性别：</span>
       </div>
       <div class="userinfo-panel-show-info">
-        <el-radio v-model="changeUserInfo.userSex" label="0">男</el-radio>
-        <el-radio v-model="changeUserInfo.userSex" label="1">女</el-radio>
+        <el-radio v-model="changeUserInfo.sex" :label="0">男</el-radio>
+        <el-radio v-model="changeUserInfo.sex" :label="1">女</el-radio>
       </div>
     </div>
     <div class="userinfo-panel-show">
@@ -94,37 +94,11 @@ export default {
   props: {},
   data () {
     return {
-      userInfo: {
-        userId: '1001',
-        userAvatar: require('@/assets/images/default/avatar/默认头像-男.png'),
-        userName: '风花雪月',
-        userFullName: '李寒衣',
-        // 1是男，2女
-        userSex: '1',
-        userEmail: '126@lihanyi.com',
-        userRole: '普通用户',
-        // 1为启用，0为注销
-        userState: 0,
-        userAddress: '四川',
-        userScore: '',
-        userTell: 12626262626
-      },
+      // 默认头像
+      defaultAvatar: require('@/assets/images/default/avatar/头像男三.png'),
+      userInfo: this.$store.state.userInfo,
       // 绑定的用户对象
-      changeUserInfo: {
-        userId: '1001',
-        userAvatar: require('@/assets/images/default/avatar/默认头像-男.png'),
-        userName: '风花雪月',
-        userFullName: '李寒衣',
-        // 1是男，2女
-        userSex: '1',
-        userEmail: '126@lihanyi.com',
-        userRole: '普通用户',
-        // 1为启用，0为注销
-        userState: 0,
-        userAddress: '四川',
-        userScore: '',
-        userTell: 12626262626
-      }
+      changeUserInfo: {}
     }
   },
   watch: {},
@@ -135,10 +109,28 @@ export default {
     // 管理员退出登录
     signOut () {
       this.$router.push('/login')
+    },
+    // 获取用户个人信息，保存到store
+    getUerInfo () {
+      const hasToken = localStorage.getItem('token')
+      this.$axios({
+        method: 'post',
+        url: '/gxc/usertb/getUserByToken',
+        data: {
+          token: hasToken
+        }
+      }).then(res => {
+        console.log(res.data)
+        this.$store.dispatch('update_userInfo', res.data.user)
+      })
     }
   },
-  created () {},
-  mounted () {}
+  created () {
+    this.userInfo = this.$store.state.userInfo
+    this.changeUserInfo = JSON.parse(JSON.stringify(this.userInfo))
+  },
+  mounted () {
+  }
 }
 </script>
 <style lang="scss" scoped>

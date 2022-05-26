@@ -16,10 +16,20 @@ var a = 'http://192.168.3.2:9090/api/'
 axios.defaults.baseURL = a
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
-// 配置前置拦截
-axios.interceptors.request.use((config) => {
-  return config
-})
+// 添加请求拦截器，在请求头中加token
+axios.interceptors.request.use(
+  config => {
+    // console.log(config)
+    if (!config.url.includes('http://192.168.3.2:9090')) { return config }
+    if (localStorage.getItem('token') && config.url.includes('http://192.168.3.2:9090')) {
+      config.headers.Authorization = localStorage.getItem('token')
+    }
+    return config
+  },
+  error => {
+    return Promise.reject(error)
+  }
+)
 
 // 配置后置拦截
 axios.interceptors.response.use(
@@ -36,6 +46,10 @@ axios.interceptors.response.use(
   },
   (error) => {
     // 使得异常信息更加友好
+    if (error.code === 'ERR_BAD_RESPONSE') {
+      Element.Message.error('手机号/邮箱格式有误')
+      return
+    }
     console.log('error : ', error)
     if (error.response.msg) {
       // data不为空时
