@@ -92,7 +92,10 @@ export default {
         if (valid) {
           this.open(formName)
         } else {
-          console.log('error submit!!')
+          this.$message({
+            type: 'error',
+            message: '输入有误!',
+          })
           return false
         }
       })
@@ -104,7 +107,6 @@ export default {
         type: 'info',
       }).then(() => {
         this.createUser().then(({ data }) => {
-          console.log(data)
           this.$message({
             type: 'success',
             message: '创建成功!',
@@ -130,7 +132,7 @@ export default {
         method: 'post',
         data: {
           userTb: userTb,
-          role_id: 1
+          role_id: 1,
         },
       })
 

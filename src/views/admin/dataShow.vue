@@ -5,10 +5,8 @@
       <h3>{{ $route.name }}</h3>
     </div>
     <div class="show">
-      <div id="user_state">
-      </div>
-      <div id="user_online">
-      </div>
+      <div id="user_state"></div>
+      <div id="user_online"></div>
     </div>
   </div>
 </template>
@@ -17,37 +15,60 @@
 export default {
   components: {},
   props: {},
-  data () {
+  data() {
     return {
-      today: ''
+      today: 0,
+      logoutCount: 0,
+      loginCount: 0,
+      enableCount: 0,
+      disableCount: 0,
     }
   },
   watch: {},
   computed: {},
   methods: {
-  // 初始化echarts
-    echartsInit () {
+    init() {
+      this.getData().then(({ data }) => {
+        Object.keys(data).forEach((k, v) => {
+          if (k === 'status_1') {
+            this.loginCount += v
+            this.enableCount += v
+          } else if (k === 'status_0') {
+            this.logoutCount += v
+            this.enableCount += v
+          } else {
+            this.logoutCount += v
+            this.disableCount += v
+          }
+        })
+        // 获取当前日期
+        const d = new Date()
+        this.today =
+          d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate()
+        // 展示数据
+        this.echartsInit()
+      })
+    },
+    // 初始化echarts
+    echartsInit() {
       this.userStateInit()
       this.userOnlineInit()
     },
-    userStateInit () {
+    userStateInit() {
       // 用户权限状态
       this.$echarts.init(document.getElementById('user_state')).setOption({
-        color: [
-          '#fac858',
-          '#73c1df'
-        ],
+        color: ['#fac858', '#73c1df'],
         title: {
           text: '用户权限状态',
           subtext: this.today,
-          left: 'center'
+          left: 'center',
         },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
         },
         legend: {
           orient: 'vertical',
-          left: 'left'
+          left: 'left',
         },
         series: [
           {
@@ -55,38 +76,35 @@ export default {
             type: 'pie',
             radius: '50%',
             data: [
-              { value: 1048, name: '启用中' },
-              { value: 735, name: '已注销' }
+              { value: this.enableCount, name: '启用中' },
+              { value: this.disableCount, name: '已注销' },
             ],
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
+            },
+          },
+        ],
       })
     },
-    userOnlineInit () {
+    userOnlineInit() {
       // 用户在线状态
       this.$echarts.init(document.getElementById('user_online')).setOption({
-        color: [
-          '#fbab7e',
-          '#a8c1ee'
-        ],
+        color: ['#fbab7e', '#a8c1ee'],
         title: {
           text: '用户在线状态',
           subtext: this.today,
-          left: 'center'
+          left: 'center',
         },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
         },
         legend: {
           orient: 'vertical',
-          left: 'left'
+          left: 'left',
         },
         series: [
           {
@@ -94,29 +112,33 @@ export default {
             type: 'pie',
             radius: '50%',
             data: [
-              { value: 260, name: '在线' },
-              { value: 735, name: '离线' }
+              { value: this.loginCount, name: '在线' },
+              { value: this.logoutCount, name: '离线' },
             ],
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
+            },
+          },
+        ],
       })
-    }
+    },
+    async getData() {
+      const data = await this.$axios({
+        url: 'gxc/usertb/allStatus',
+        method: 'post',
+      })
+
+      return data
+    },
   },
-  created () {},
-  mounted () {
-    // 获取当前日期
-    const d = new Date()
-    this.today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + (d.getDate())
-    // 展示数据
-    this.echartsInit()
-  }
+  created() {
+    this.init()
+  },
+  mounted() {},
 }
 </script>
 <style lang="scss" scoped>
@@ -127,8 +149,9 @@ export default {
   background: #ffffff;
   box-sizing: border-box;
   border-radius: 4px;
-  box-shadow: 0 4px 8px 0 rgba(189, 189, 189, 0.2), 0 3px 10px 0 rgba(203, 203, 203, 0.19);
-  .title{
+  box-shadow: 0 4px 8px 0 rgba(189, 189, 189, 0.2),
+    0 3px 10px 0 rgba(203, 203, 203, 0.19);
+  .title {
     box-sizing: border-box;
     padding: 0 10px;
     width: 100%;

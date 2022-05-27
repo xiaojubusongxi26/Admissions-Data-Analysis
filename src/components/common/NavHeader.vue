@@ -24,7 +24,7 @@ export default {
     initHeight () {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
       this.isChange = scrollTop > 70 ? 1 : 0
-    }
+    },
   },
   created () {},
   mounted () {

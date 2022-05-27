@@ -10,7 +10,7 @@ const state = {
     userId: '0',
     roleId: '',
     username: '',
-    avatar: require('@/assets/images/default/avatar/头像男三.png'),
+    avatar: require('@/assets/images/default/avatar/defaultManImg.png'),
     email: '',
     phone: '',
     name: '',
@@ -19,7 +19,11 @@ const state = {
     score: 0,
     province: ''
   },
+  defaultManImg: require('@/assets/images/default/avatar/defaultManImg.png'),
+  defaultWomanImg: require('@/assets/images/default/avatar/defaultWomanImg.png'),
+  defaultSecrecyImg: require('@/assets/images/default/avatar/defaultSecrecyImg.png'),
   token: localStorage.getItem('token') ? localStorage.getItem('token') : '' // token
+
 }
 
 export default new Vuex.Store({
@@ -47,6 +51,15 @@ export default new Vuex.Store({
       // 修改头像
       state.userInfo.avatar = value
       sessionStorage.setItem('userInfo', JSON.stringify(state.userInfo))
+    },
+    logout(state, value) {
+      localStorage.setItem('token', '')
+      localStorage.setItem('userRoleID', '')
+      sessionStorage.setItem('userInfo', JSON.stringify(''))
+      state.userId = '0'
+      state.userRoleID = 0
+      state.userInfo = {}
+      state.token = ''
     }
   },
   actions: {
@@ -64,10 +77,25 @@ export default new Vuex.Store({
     getUserInfo: state => {
       return state.userInfo
     },
+    getDefaultManImg: state => {
+      return state.defaultManImg
+    },
+    getDefaultWomanImg: state => {
+      return state.defaultWomanImg
+    },
+    getDefaultSecrecyImg: state => {
+      return state.defaultSecrecyImg
+    },
     getUserId: state => {
       return state.userId
+    },
+    getToken: state => {
+      return state.token
+    },
+    getUserRoleId: state => {
+      return state.userRoleID
     }
   },
   modules: {
-  }
+  },
 })
