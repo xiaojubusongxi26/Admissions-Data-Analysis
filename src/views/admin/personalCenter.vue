@@ -10,7 +10,7 @@
         <div class="avatar-show">
           <el-upload
             class="avatar-uploader"
-            action="http://192.168.3.2:9090/api/gxc/usertb/ossFile"
+            action="http://localhost:9090/api/gxc/usertb/ossFile"
             :show-file-list="false"
             name="file"
             :headers="token"
