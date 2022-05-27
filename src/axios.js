@@ -20,10 +20,11 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.interceptors.request.use(
   config => {
     // console.log(config)
-    if (!config.url.includes('http://192.168.3.2:9090')) { return config }
-    if (localStorage.getItem('token') && config.url.includes('http://192.168.3.2:9090')) {
+    // if (!config.url.includes('http://192.168.3.2:9090')) { return config }
+    if (localStorage.getItem('token') !== '' && config.url.includes('gxc')) {
       // console.log(localStorage.getItem('satoken'))
       config.headers.Authorization = localStorage.getItem('token')
+      config.headers.satoken = localStorage.getItem('token')
     }
     return config
   },
@@ -36,8 +37,11 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => {
     const res = response.data
+    // console.log(res)
     if (res.code === 0) {
       return response
+    } else if (res.code === 1000) {
+      return 0
     } else {
       Element.Message.error(res.msg, { duration: 2 * 1000 })
       // 返回一个异常提示就不会继续往下走了 不+的话 res=>的里面 还是会继续走的

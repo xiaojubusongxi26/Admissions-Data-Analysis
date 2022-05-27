@@ -163,7 +163,7 @@ export default {
     download() {
       const pageNum = this.pageNum === '' ? '' : 'pageNum=' + this.pageNum + '&'
       const pageSize =
-        this.pageSize === '' ? '' : 'pageSize=' + this.pageSize + '&'
+        this.pageSize === '' ? '' : 'pageSize=' + (this.totalPages > 20 ? 20 * 10 : this.totalPages * 10) + '&'
       const school =
         this.querySchool === '' ? '' : 'school=' + this.querySchool + '&'
       const province =

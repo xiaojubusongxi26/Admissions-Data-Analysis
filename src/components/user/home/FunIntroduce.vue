@@ -24,25 +24,25 @@ export default {
       panelData: [
         {
           href: '/analysisQuery',
-          imgUrl: require('@/assets/images/userIndex/funcIntroduce/wallhaven-g7dod3.jpg'),
+          imgUrl: require('@/assets/images/userIndex/funcIntroduce/招生信息.jpeg'),
           title: '高校招生信息查询',
           introduce: '获取最新高校、专业招生信息'
         },
         {
           href: '/dataDisplay',
-          imgUrl: require('@/assets/images/userIndex/funcIntroduce/iTab-x8wr33.jpg'),
+          imgUrl: require('@/assets/images/userIndex/funcIntroduce/招生计划.png'),
           title: '全国招生计划展示图',
           introduce: '全国各省份的招生信息以及计划招生人数数据图'
         },
         {
           href: '/dataDisplay',
-          imgUrl: require('@/assets/images/userIndex/funcIntroduce/wallhaven-9my82x.jpg'),
+          imgUrl: require('@/assets/images/userIndex/funcIntroduce/院校推荐.jpg'),
           title: '院校推荐、专业TOP',
           introduce: '最热/冷门Top10，最热专业院校推荐'
         },
         {
           href: '/dataDisplay',
-          imgUrl: require('@/assets/images/userIndex/funcIntroduce/wallhaven-8ogg2o.png'),
+          imgUrl: require('@/assets/images/userIndex/funcIntroduce/留言面板.jpg'),
           title: '留言面板',
           introduce: '和同龄的他们一起交流'
         }

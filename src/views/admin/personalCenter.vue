@@ -85,7 +85,7 @@ export default {
   methods: {
     // 初始化页面
     init() {
-      console.log(this.$store.getters.getToken)
+      // console.log(this.$store.getters.getToken)
       this.token = JSON.parse(
         '{"satoken": "' + this.$store.getters.getToken + '"}'
       )
@@ -110,6 +110,7 @@ export default {
         type: 'success',
       })
       this.admin.avatar = res.url
+      this.$store.dispatch('update_userAvatar', res.url)
     },
     // 上传头像前文件格式校验
     beforeAvatarUpload(file) {
@@ -263,6 +264,7 @@ export default {
           width: 150px;
           height: 150px;
           display: block;
+          object-fit: cover;
         }
       }
       h2 {

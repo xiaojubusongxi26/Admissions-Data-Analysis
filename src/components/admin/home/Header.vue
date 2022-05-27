@@ -3,8 +3,8 @@
     <div class="user-avatar">
       <div class="avatar left">
         <a href="/personalCenter" class="user">
-          <img :src="avatar" alt="" />
-          <h2>{{ username }}</h2>
+          <img :src="$store.state.userInfo.avatar" alt="" />
+          <h2>{{ $store.state.userInfo.username }}</h2>
         </a>
       </div>
     </div>
@@ -50,12 +50,6 @@ export default {
   },
   computed: {},
   methods: {
-    init() {
-      this.initUserInfo()
-      this.getUnreadCount().then(({ data }) => {
-        this.unreadCount = data.CountsOfUnchecked
-      })
-    },
     initHeight() {
       const scrollTop =
         window.pageYOffset ||
@@ -64,7 +58,7 @@ export default {
       this.isChange = scrollTop > 70 ? 1 : 0
     },
     // 初始化用户信息
-    initUserInfo() {
+    /* initUserInfo() {
       this.userId = this.$store.getters.getUserInfo.userId
       this.getUserInfo().then(({ data }) => {
         this.username = data.user.username
@@ -79,29 +73,24 @@ export default {
           }
         }
       })
-    },
-    // 获取用户信息
-    async getUserInfo() {
-      const data = await this.$axios({
-        url: 'gxc/usertb/info/' + this.userId,
-        method: 'post',
-      })
-
-      return data
-    },
-    async getUnreadCount() {
-      const data = await this.$axios({
-        url: 'gxc/contactmsgtb/getStatusOf0',
-        method: 'post',
-      })
-
-      return data
-    },
+    }, */
+    // 获取用户个人信息，保存到store
+    getUerInfo () {
+      if (this.$store.state.userId !== 0 && this.$store.state.userId !== '') {
+        // console.log(this.$store.state.userId)
+        this.$axios({
+          method: 'post',
+          url: '/gxc/usertb/info/' + this.$store.state.userId,
+        }).then(res => {
+          this.$store.dispatch('update_userInfo', res.data.user)
+        })
+      }
+    }
   },
   created() {
-    this.init()
   },
   mounted() {
+    this.getUerInfo()
     window.addEventListener('scroll', this.initHeight)
   },
 }

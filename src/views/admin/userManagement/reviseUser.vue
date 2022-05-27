@@ -66,7 +66,7 @@
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.province }}
+            {{ userInfo.province === '中国' ? '未设置' : userInfo.province }}
           </span>
         </div>
       </div>
@@ -76,7 +76,7 @@
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.score }}
+            {{ userInfo.score === 0 ? '未设置' : userInfo.scor }}
           </span>
         </div>
       </div>
@@ -90,7 +90,7 @@
           <el-radio v-model="changeUserInfo.sex" :label="-1">保密</el-radio>
         </div>
       </div>
-      <div class="user-info-show">
+      <!-- <div class="user-info-show">
         <div class="user-info-title">
           <span> 角色： </span>
         </div>
@@ -99,7 +99,7 @@
             {{ userInfo.userRole }}
           </span>
         </div>
-      </div>
+      </div> -->
       <div class="user-info-show">
         <div class="user-info-title">
           <span> 状态： </span>
@@ -258,7 +258,7 @@ export default {
       align-items: center;
     }
   }
-  .user-info-show-avatar {
+  ::v-deep .user-info-show-avatar {
     height: 100px;
     line-height: 100px;
     margin-bottom: 12px;
@@ -270,6 +270,9 @@ export default {
         width: 100px;
         height: 100px;
         border-radius: 100px;
+        img {
+          object-fit: cover;
+        }
       }
     }
   }

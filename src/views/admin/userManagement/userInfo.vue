@@ -59,7 +59,7 @@
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.province }}
+            {{ userInfo.province === '' ? '未设置' : userInfo.province }}
           </span>
         </div>
       </div>
@@ -69,7 +69,7 @@
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.score }}
+            {{ userInfo.score === 0 ? '未设置' : userInfo.scor }}
           </span>
         </div>
       </div>
@@ -83,7 +83,7 @@
           <span v-if="userInfo.sex === 1">女</span>
         </div>
       </div>
-      <div class="user-info-show">
+      <!-- <div class="user-info-show">
         <div class="user-info-title">
           <span> 角色： </span>
         </div>
@@ -92,7 +92,7 @@
             {{ userInfo.userRole }}
           </span>
         </div>
-      </div>
+      </div> -->
       <div class="user-info-show">
         <div class="user-info-title">
           <span> 状态： </span>
@@ -100,7 +100,7 @@
         <div class="user-info-data">
           <el-tag
             size="small"
-            v-if="userInfo.status === -1 || userInfo.status === -2"
+            v-if="userInfo.status === 0 || userInfo.status === 1"
             >启用</el-tag
           >
           <el-tag size="small" v-else type="danger">注销</el-tag>
@@ -212,7 +212,7 @@ export default {
       }
     }
   }
-  .user-info-show-avatar {
+  ::v-deep .user-info-show-avatar {
     height: 100px;
     line-height: 100px;
     margin-bottom: 12px;
@@ -224,6 +224,9 @@ export default {
         width: 100px;
         height: 100px;
         border-radius: 100px;
+        img {
+          object-fit: cover;
+        }
       }
     }
   }

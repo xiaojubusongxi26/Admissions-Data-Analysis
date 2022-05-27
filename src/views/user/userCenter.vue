@@ -67,22 +67,24 @@ export default {
   },
   methods: {
     handleAvatarSuccess (res, file) {
-      console.log(res)
+      // console.log(res)
       this.userInfo.avatar = URL.createObjectURL(file.raw)
       this.$store.dispatch('update_userAvatar', res.url)
       // this.getUerInfo()
     },
-    beforeAvatarUpload (file) {
+    // 上传头像前文件格式校验
+    beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isPNG = file.type === 'image/png'
+      const isLt4M = file.size / 1024 / 1024 < 4
 
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+      if (!isJPG && !isPNG) {
+        this.$message.error('上传头像图片只能是 JPG/PNG 格式!')
       }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
+      if (!isLt4M) {
+        this.$message.error('上传头像图片大小不能超过 4MB!')
       }
-      return isJPG && isLt2M
+      return (isJPG || isPNG) && isLt4M
     },
     getUerInfo () {
       const hasToken = localStorage.getItem('token')

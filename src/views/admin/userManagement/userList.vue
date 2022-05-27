@@ -70,7 +70,7 @@
     </div>
     <!-- 用户信息展示列表 -->
     <div class="user-list">
-      <el-empty description="描述文字" v-if="isEmpty"></el-empty>
+      <el-empty description="未找到该用户" v-if="isEmpty"></el-empty>
       <el-descriptions
         v-for="(item, index) in userList"
         :key="index"
@@ -147,7 +147,7 @@
             <i class="el-icon-tickets"></i>
             状态
           </template>
-          <el-tag size="small" v-if="item.status === -1 || item.status === -2">
+          <el-tag size="small" v-if="item.status === 0 || item.status === 1">
             启用
           </el-tag>
           <el-tag size="small" v-else type="danger">注销</el-tag>
@@ -201,15 +201,18 @@ export default {
     // 初始化获取所有用户数据
     initUserData() {
       this.getAllUser().then(({ data }) => {
-        this.page = data.page
+        // console.log(data)
+        this.page = data.userVolist
         this.page.pageSize = 5
-        this.page.totalCount = this.page.list.length
+        this.page.totalCount = this.page.length
         if (this.page.totalCount === 0) {
           this.isEmpty = true
+          this.userList = []
           return 0
         }
-
-        this.userList = this.page.list.slice(0, this.page.pageSize)
+        this.remoteManager(this.page)
+        // console.log(this.page)
+        this.userList = this.page.slice(0, this.page.pageSize)
       })
     },
     // 跳转到用户详情页
@@ -261,17 +264,55 @@ export default {
       })
     },
     // 搜索用户
-    search() {},
+    search() {
+      // 自定义查询条件
+      const obj = {
+        phone: this.searchTell,
+        username: this.searchUsername,
+        name: this.searchName
+      }
+      // 去除空属性
+      for (var propName in obj) {
+        if (obj[propName] === '' || obj[propName] === null || obj[propName] === undefined) {
+          delete obj[propName]
+        }
+      }
+      // console.log(obj)
+      this.$axios({
+        method: 'post',
+        url: '/gxc/usertb/getUserVoList',
+        data: {
+          phone: this.searchTell,
+          username: this.searchUsername,
+          name: this.searchName
+        }
+      }).then(({ data }) => {
+        console.log(data)
+        this.page = data.userVolist
+        this.page.pageSize = 5
+        this.page.totalCount = this.page.length
+        if (this.page.totalCount === 0) {
+          this.isEmpty = true
+          this.userList = []
+          return 0
+        }
+        this.remoteManager(this.page)
+        // console.log(this.page)
+        this.userList = this.page.slice(0, this.page.length)
+      })
+    },
     // 清除搜索条件并重置用户列表
     clear() {
       this.searchUsername = ''
       this.searchName = ''
       this.searchTell = ''
+      this.userList = []
+      this.isEmpty = false
       this.initUserData()
     },
     // 分页控制
     handleCurrentChange(val) {
-      this.userList = this.page.list.slice(
+      this.userList = this.page.slice(
         (val - 1) * this.page.pageSize,
         val * this.page.pageSize
       )
@@ -279,8 +320,9 @@ export default {
     // 获取所有用户
     async getAllUser() {
       const data = await this.$axios({
-        url: 'gxc/usertb/list',
+        url: 'gxc/usertb/getUserVoList',
         method: 'post',
+        data: {}
       })
 
       return data
@@ -298,6 +340,16 @@ export default {
 
       return data
     },
+    // 删除管理员用户
+    remoteManager (userList) {
+      const list = []
+      for (const user in userList) {
+        if (user.roleId === '1') {
+          list.push(user)
+        }
+      }
+      userList = list
+    }
   },
   created() {
     this.initUserData()

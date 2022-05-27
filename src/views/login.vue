@@ -17,8 +17,9 @@
             v-model="inputUser">
           </div>
           <div class="input" :class="{ focus: isPassFocus || inputPwd != '' }" placeholder="密码">
-            <input class="password_input" type="password" @focus="isPassFocus = true" @blur="isPassFocus = false"
+            <input class="password_input" :type="isShowPwd ? 'text' : 'password'" @focus="isPassFocus = true" @blur="isPassFocus = false"
             v-model="inputPwd" @keydown.enter="login()">
+            <i class="el-icon-view" @click="isShowPwd = !isShowPwd"></i>
             <el-checkbox v-model="isRememberPwd" text-color="#1595d4" fill="#1595d4">记住密码</el-checkbox>
           </div>
           <button @click="login()" >登录</button>
@@ -94,6 +95,8 @@ export default {
       isPassFocus: false,
       isEmailFocus: false,
       isVerificationFocus: false,
+      // 是否显示密码
+      isShowPwd: false,
       // 是否禁止发送验证码按钮
       isProhibit: false,
       // 验证码倒计时
@@ -564,6 +567,14 @@ export default {
           margin: 2rem 0;
           opacity: 1;
           transition: .6s;
+          .el-icon-view {
+            position: absolute;
+            color: #1595d4;
+            top: 5px;
+            right: 100px;
+            z-index: 1;
+            cursor: pointer;
+          }
           // 输入框的默认文字
           &::after{
             content: attr(placeholder);

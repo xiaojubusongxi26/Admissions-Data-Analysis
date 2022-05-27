@@ -106,7 +106,7 @@ export default {
           this.$message.error('重置密码失败!')
         })
 
-      console.log(this.newPw)
+      // console.log(this.newPw)
     },
     // 初始化用户信息
     initUserInfo() {

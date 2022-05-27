@@ -44,6 +44,16 @@ export default new Vuex.Store({
       // 设置用户信息
       state.userInfo = JSON.parse(JSON.stringify(value))
       state.userId = value.userId
+      // 设置默认头像
+      if (state.userInfo.avatar === null) {
+        if (state.userInfo.sex === 0) {
+          state.userInfo.avatar = state.defaultManImg
+        } else if (state.userInfo.sex === 1) {
+          state.userInfo.avatar = state.defaultWomanImg
+        } else {
+          state.userInfo.avatar = state.defaultSecrecyImg
+        }
+      }
       sessionStorage.setItem('userId', value.userId)
       sessionStorage.setItem('userInfo', JSON.stringify(value))
     },
@@ -94,6 +104,9 @@ export default new Vuex.Store({
     },
     getUserRoleId: state => {
       return state.userRoleID
+    },
+    getUserAvatar: state => {
+      return state.userInfo.avatar
     }
   },
   modules: {
