@@ -148,7 +148,7 @@ export default {
     },
     // 密码登录
     PwdLogin () {
-      console.log(this.$validate.checkTellEmail(this.inputUser))
+      // console.log(this.$validate.checkTellEmail(this.inputUser))
       if (this.inputUser === '') {
         this.$message.warning('请输入手机号/邮箱')
         return 0
@@ -189,7 +189,7 @@ export default {
           password: this.inputPwd
         }
       }).then(res => {
-        console.log(res.data)
+        // console.log(res.data)
         if (res.data.code === 0) {
           // 账号密码正确
           this.Id = res.data.user.userId

@@ -3,7 +3,7 @@
   <div class="map">
     <div class="map-header">
       <h2>全国计划招生总人数</h2>
-      <span class="css2f7da245c624067">7,026,123</span>
+      <span class="css2f7da245c624067">{{ total }}</span>
     </div>
     <div id="myChartChina" :style="{ width: '60%', height: '60%' }"></div>
 
@@ -17,16 +17,51 @@ export default {
   props: {},
 
   data () {
-    return {}
+    return {
+      // 展示数据
+      data: [],
+      // 招生总数
+      total: 0
+    }
   },
 
-  created () {},
+  created () {
+    this.DealData()
+  },
 
   mounted () {
-    this.drawLine()
   },
 
   methods: {
+    DealData () {
+      this.$axios({
+        method: 'post',
+        url: '/gxc/cityplantb/list',
+        data: {
+          userId: 1
+        }
+      }).then((res) => {
+        // console.log(res.data.page.list)
+        this.data = res.data.page.list
+        const newArr = []
+        // console.log(this.data)
+        for (const i in this.data) {
+          const obj = {}
+          for (const j in this.data[i]) {
+            if (j === 'cityName') {
+              obj.name = this.data[i][j]
+            }
+            if (j === 'cityPlan') {
+              this.total += this.data[i][j]
+              obj.value = String(this.data[i][j])
+            }
+          }
+          newArr.push(obj)
+        }
+        this.data = newArr
+        this.drawLine()
+      })
+    },
     drawLine () {
       var myChartContainer = document.getElementById('myChartChina') // 绑定div容器
 
@@ -39,10 +74,6 @@ export default {
       resizeMyChartContainer()
 
       var myChartChina = this.$echarts.init(myChartContainer)
-
-      function randomData () {
-        return Math.round(Math.random() * 500)
-      }
 
       // 绘制图表
 
@@ -63,17 +94,17 @@ export default {
           // 改变地图区域颜色
 
           splitList: [
-            { start: 500, end: 600 },
+            { start: 25000, end: 80000 },
 
-            { start: 400, end: 500 },
+            { start: 20000, end: 25000 },
 
-            { start: 300, end: 400 },
+            { start: 15000, end: 20000 },
 
-            { start: 200, end: 300 },
+            { start: 10000, end: 15000 },
 
-            { start: 100, end: 200 },
+            { start: 5000, end: 10000 },
 
-            { start: 0, end: 100 }
+            { start: 0, end: 5000 }
           ],
 
           color: [
@@ -95,7 +126,7 @@ export default {
 
         series: [
           {
-            name: '数据',
+            name: '计划招生人数',
 
             type: 'map',
 
@@ -105,83 +136,84 @@ export default {
 
             label: {
               normal: {
-                show: false // 省份名称
+                show: true // 省份名称
               },
 
               emphasis: {
-                show: false
+                show: true
               }
             },
 
-            data: [
+            data: this.data
+            /* data: [
               { name: '北京', value: '100' },
 
-              { name: '天津', value: randomData() },
+              { name: '天津', value: '200' },
 
-              { name: '上海', value: randomData() },
+              { name: '上海', value: '200' },
 
-              { name: '重庆', value: randomData() },
+              { name: '重庆', value: '200' },
 
-              { name: '河北', value: randomData() },
+              { name: '河北', value: '200' },
 
-              { name: '河南', value: randomData() },
+              { name: '河南', value: '200' },
 
-              { name: '云南', value: randomData() },
+              { name: '云南', value: '200' },
 
-              { name: '辽宁', value: randomData() },
+              { name: '辽宁', value: '200' },
 
-              { name: '黑龙江', value: randomData() },
+              { name: '黑龙江', value: '200' },
 
-              { name: '湖南', value: randomData() },
+              { name: '湖南', value: '300' },
 
-              { name: '安徽', value: randomData() },
+              { name: '安徽', value: '300' },
 
-              { name: '山东', value: randomData() },
+              { name: '山东', value: '300' },
 
-              { name: '新疆', value: randomData() },
+              { name: '新疆', value: '300' },
 
-              { name: '江苏', value: randomData() },
+              { name: '江苏', value: '300' },
 
-              { name: '浙江', value: randomData() },
+              { name: '浙江', value: '300' },
 
-              { name: '江西', value: randomData() },
+              { name: '江西', value: '300' },
 
-              { name: '湖北', value: randomData() },
+              { name: '湖北', value: '300' },
 
-              { name: '广西', value: randomData() },
+              { name: '广西', value: '300' },
 
-              { name: '甘肃', value: randomData() },
+              { name: '甘肃', value: '300' },
 
-              { name: '山西', value: randomData() },
+              { name: '山西', value: '300' },
 
-              { name: '内蒙古', value: randomData() },
+              { name: '内蒙古', value: '300' },
 
-              { name: '陕西', value: randomData() },
+              { name: '陕西', value: '400' },
 
-              { name: '吉林', value: randomData() },
+              { name: '吉林', value: '400' },
 
-              { name: '福建', value: randomData() },
+              { name: '福建', value: '400' },
 
-              { name: '贵州', value: randomData() },
+              { name: '贵州', value: '400' },
 
-              { name: '广东', value: randomData() },
+              { name: '广东', value: '400' },
 
-              { name: '青海', value: randomData() },
+              { name: '青海', value: '400' },
 
-              { name: '西藏', value: randomData() },
+              { name: '西藏', value: '400' },
 
-              { name: '四川', value: randomData() },
+              { name: '四川', value: '400' },
 
-              { name: '宁夏', value: randomData() },
+              { name: '宁夏', value: '400' },
 
-              { name: '海南', value: randomData() },
+              { name: '海南', value: '400' },
 
-              { name: '台湾', value: randomData() },
+              { name: '台湾', value: '400' },
 
-              { name: '香港', value: randomData() },
+              { name: '香港', value: '400' },
 
-              { name: '澳门', value: randomData() }
-            ] // 数据
+              { name: '澳门', value: '400' }
+            ] */
           }
         ]
       }

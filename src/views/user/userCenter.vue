@@ -9,9 +9,10 @@
         <img :src="userInfo.avatar === null ? defaultAvatar : userInfo.avatar" class="mosk-log" alt="">
         <div class="avatar-show">
           <el-upload
+            name="file"
             class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :show-file-list="false"
+            action="http://localhost:9090/api/gxc/usertb/ossFile"
+            :headers="headers"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
             <img v-if="imageUrl" :src="userInfo.avatar === null ? defaultAvatar : userInfo.avatar" class="avatar">
@@ -47,6 +48,7 @@ export default {
       // 当前处于0 修改信息还是1 重置密码
       isState: 0,
       userInfo: {},
+      satoken: '',
       // 默认头像
       defaultAvatar: require('@/assets/images/default/avatar/头像男三.png'),
       adminName: 'xiekanhua26',
@@ -55,10 +57,20 @@ export default {
     }
   },
   watch: {},
-  computed: {},
+  computed: {
+    headers () {
+      return {
+        Authorization: this.satoken, // 直接从本地获取token就行
+        satoken: this.satoken
+      }
+    }
+  },
   methods: {
     handleAvatarSuccess (res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
+      console.log(res)
+      this.userInfo.avatar = URL.createObjectURL(file.raw)
+      this.$store.dispatch('update_userAvatar', res.url)
+      // this.getUerInfo()
     },
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
@@ -71,10 +83,25 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
       return isJPG && isLt2M
+    },
+    getUerInfo () {
+      const hasToken = localStorage.getItem('token')
+      this.$axios({
+        method: 'post',
+        url: '/gxc/usertb/getUserByToken',
+        data: {
+          token: hasToken
+        }
+      }).then(res => {
+        // console.log(res)
+        this.$store.dispatch('update_userInfo', res.data.user)
+        this.userInfo = res.data.user
+      })
     }
   },
   created () {
     this.userInfo = this.$store.getters.getUserInfo
+    this.satoken = localStorage.getItem('token')
   },
   mounted () {}
 }
@@ -164,6 +191,7 @@ export default {
           width: 150px;
           height: 150px;
           display: block;
+          object-fit: cover;
         }
       }
       h2 {

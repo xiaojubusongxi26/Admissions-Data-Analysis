@@ -19,6 +19,7 @@ export default {
   props: {},
   data () {
     return {
+      today: ''
     }
   },
   watch: {},
@@ -38,7 +39,7 @@ export default {
         ],
         title: {
           text: '用户权限状态',
-          subtext: this.$store.state.today,
+          subtext: this.today,
           left: 'center'
         },
         tooltip: {
@@ -77,7 +78,7 @@ export default {
         ],
         title: {
           text: '用户在线状态',
-          subtext: this.$store.state.today,
+          subtext: this.today,
           left: 'center'
         },
         tooltip: {
@@ -112,8 +113,7 @@ export default {
   mounted () {
     // 获取当前日期
     const d = new Date()
-    const today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + (d.getDate())
-    this.$store.dispatch('updated_Today', today)
+    this.today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + (d.getDate())
     // 展示数据
     this.echartsInit()
   }

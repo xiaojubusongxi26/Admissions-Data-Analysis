@@ -18,30 +18,75 @@ export default {
   data () {
     return {
       /* eslint-disable */
+      hostXData: [],
+      hostYData: [],
+      coldXData: [],
+      coldYData: []
     }
   },
   watch: {},
   computed: {},
   methods: {
-    // 热门Top
-    initEchartsHost() {
+    // 获取热门top数据
+    GetHotList () {
+      this.$axios({
+        method: 'post',
+        url: '/gxc/hotmajortb/list',
+      }).then((res) => {
+        const list = res.data.page.list
+        for (const i in list) {
+          for (const j in list[i]) {
+            if (j === 'majorProfess') {
+              this.hostXData.push(list[i][j])
+            }
+            if (j === 'majorPlan') {
+              this.hostYData.push(list[i][j])
+            }
+          }
+        }
+        this.initEchartsHost()
+      })
+    },
+    // 热门Top初始化
+    initEchartsHost () {
       // 基本柱状图
       const option = {
-        xAxis: {
-          type: 'category',
-          data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
-        yAxis: {
-          type: 'value'
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
         },
+        xAxis: [
+          {
+            type: 'category',
+            data: this.hostXData,
+            axisTick: {
+              alignWithLabel: true
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
         series: [
           {
-            data: [120, 200, 150, 80, 70, 110, 130, 70, 110, 130],
-            type: 'bar'
+            name: '计划招生数',
+            type: 'bar',
+            barWidth: '60%',
+            data: this.hostYData
           }
         ],
         color: [
-          '#ff8060'
+          '#5572ca'
         ]
       };
       const myChart = this.$echarts.init(document.getElementById("mycharthost"));
@@ -51,25 +96,66 @@ export default {
         myChart.resize();
       });
     },
-    // 冷门Top
-    initEchartsCold() {
+    // 获取冷门top数据
+    GetColdList () {
+      this.$axios({
+        method: 'post',
+        url: '/gxc/coldmajortb/list',
+      }).then((res) => {
+        const list = res.data.page.list
+        for (const i in list) {
+          for (const j in list[i]) {
+            if (j === 'majorProfess') {
+              this.coldXData.push(list[i][j])
+            }
+            if (j === 'majorPlan') {
+              this.coldYData.push(list[i][j])
+            }
+          }
+        }
+        this.initEchartsCold()
+      })
+    },
+    // 冷门Top初始化
+    initEchartsCold () {
       // 基本柱状图
       const option = {
-        xAxis: {
-          type: 'category',
-          data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
-        yAxis: {
-          type: 'value'
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
         },
+        xAxis: [
+          {
+            type: 'category',
+            data: this.coldXData,
+            axisTick: {
+              alignWithLabel: true
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
         series: [
           {
-            data: [120, 200, 150, 80, 70, 110, 130, 70, 110, 130],
-            type: 'bar'
+            name: '计划招生数',
+            type: 'bar',
+            barWidth: '60%',
+            data: this.coldYData
           }
         ],
         color: [
-          '#66CCFF'
+          '#90cd74'
         ]
       };
       const myChart = this.$echarts.init(document.getElementById("mychartcold"));
@@ -81,10 +167,10 @@ export default {
     }
   },
   created () {
+    this.GetHotList ()
+    this.GetColdList ()
   },
   mounted () {
-    this.initEchartsHost()
-    this.initEchartsCold()
   }
 }
 </script>

@@ -31,7 +31,6 @@ export default {
           token: hasToken
         }
       }).then(res => {
-        console.log(res)
         this.$store.dispatch('update_userInfo', res.data.user)
       })
     }

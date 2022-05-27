@@ -22,6 +22,7 @@ axios.interceptors.request.use(
     // console.log(config)
     if (!config.url.includes('http://192.168.3.2:9090')) { return config }
     if (localStorage.getItem('token') && config.url.includes('http://192.168.3.2:9090')) {
+      // console.log(localStorage.getItem('satoken'))
       config.headers.Authorization = localStorage.getItem('token')
     }
     return config
@@ -46,10 +47,10 @@ axios.interceptors.response.use(
   },
   (error) => {
     // 使得异常信息更加友好
-    if (error.code === 'ERR_BAD_RESPONSE') {
+    /* if (error.code === 'ERR_BAD_RESPONSE') {
       Element.Message.error('手机号/邮箱格式有误')
       return
-    }
+    } */
     console.log('error : ', error)
     if (error.response.msg) {
       // data不为空时

@@ -5,19 +5,20 @@
       <h3>{{ $route.name }}</h3>
     </div>
     <div class="message" v-for="(item, index) in message" :key="index">
-      <div class="message-user-info">
+      <div class="message-user-info" @click="goUserInfo(item.userId)">
         <div class="user-info-avatar">
-          <img :src="message[0].userAvatar" alt="">
+          <img :src="item.avatar === null ? defaultAvatar : item.avatar" alt="">
         </div>
         <div class="user-info-username">
-          {{ message[0].userName }}
+          {{ item.username }}
+          <span v-if="item.status === 0"></span>
         </div>
         <div class="user-info-time">
-          {{ message[0].messageTime }}
+          {{ item.createTime }}
         </div>
       </div>
       <div class="message-text">
-        {{ message[0].messageText }}
+        {{ item.message }}
       </div>
     </div>
   </div>
@@ -29,6 +30,8 @@ export default {
   props: {},
   data () {
     return {
+      // 默认头像
+      defaultAvatar: require('@/assets/images/default/avatar/头像男三.png'),
       message: [
         {
           userName: '潇白衣',
@@ -53,8 +56,26 @@ export default {
   },
   watch: {},
   computed: {},
-  methods: {},
-  created () {},
+  methods: {
+    GetMsgList () {
+      this.$axios({
+        method: 'post',
+        url: '/gxc/contactmsgtb/getContactMsgVoList'
+      }).then((res) => {
+        console.log(res)
+        if (res.data.code === 0) {
+          this.message = res.data.ContactMsgVoList
+        }
+      })
+    },
+    // 查看用户详情
+    goUserInfo (userId) {
+      this.$router.push('/userInfo/' + userId)
+    }
+  },
+  created () {
+    this.GetMsgList()
+  },
   mounted () {}
 }
 </script>
@@ -135,6 +156,7 @@ export default {
           border-radius: 40px;
           width: 40px;
           height: 40px;
+          object-fit: cover;
         }
       }
       div:not(div:first-child) {
@@ -142,6 +164,16 @@ export default {
       }
       .user-info-username {
         // font-weight: bold;
+        span {
+          width: 12px;
+          height: 12px;
+          border-radius: 12px;
+          background: #f56c6c;
+          display: block;
+          position: absolute;
+          right: 20px;
+          top: 10px;
+        }
       }
       .user-info-time {
         font-size: 14px;

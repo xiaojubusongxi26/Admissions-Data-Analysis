@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-  userId: '0',
+  userId: sessionStorage.getItem('userId'),
   userRoleID: localStorage.getItem('userRoleID') ? localStorage.getItem('userRoleID') : 0,
   userInfo: JSON.parse(sessionStorage.getItem('userInfo')) ? JSON.parse(sessionStorage.getItem('userInfo')) : {
     userId: '0',
@@ -15,7 +15,9 @@ const state = {
     phone: '',
     name: '',
     sex: '',
-    status: ''
+    status: '',
+    score: 0,
+    province: ''
   },
   token: localStorage.getItem('token') ? localStorage.getItem('token') : '' // token
 }
@@ -37,10 +39,14 @@ export default new Vuex.Store({
     setUserInfo (state, value) {
       // 设置用户信息
       state.userInfo = JSON.parse(JSON.stringify(value))
-      console.log(value)
-      // state.userId = value.userId
-      console.log(state.userInfo)
+      state.userId = value.userId
+      sessionStorage.setItem('userId', value.userId)
       sessionStorage.setItem('userInfo', JSON.stringify(value))
+    },
+    setUserAvatar (state, value) {
+      // 修改头像
+      state.userInfo.avatar = value
+      sessionStorage.setItem('userInfo', JSON.stringify(state.userInfo))
     }
   },
   actions: {
@@ -50,10 +56,16 @@ export default new Vuex.Store({
     update_userInfo: (context, payload) => {
       context.commit('setUserInfo', payload)
     },
+    update_userAvatar: (context, payload) => {
+      context.commit('setUserAvatar', payload)
+    },
   },
   getters: {
     getUserInfo: state => {
       return state.userInfo
+    },
+    getUserId: state => {
+      return state.userId
     }
   },
   modules: {

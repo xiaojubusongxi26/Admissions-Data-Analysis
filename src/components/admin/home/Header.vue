@@ -21,7 +21,7 @@
       </div>
       <div class="link text">
         <a href="/messageCenter">
-          <el-badge :value="200" :max="99" class="item">
+          <el-badge :value="CountsOfUnchecked === 0 ? null : CountsOfUnchecked" :max="99" class="item">
             消息中心
           </el-badge>
         </a>
@@ -49,7 +49,8 @@ export default {
       // 默认头像
       defaultAvatar: require('@/assets/images/default/avatar/头像男三.png'),
       username: '谢看花🌸',
-      isChange: 0
+      isChange: 0,
+      CountsOfUnchecked: 0
     }
   },
   watch: {},
@@ -58,9 +59,23 @@ export default {
     initHeight () {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
       this.isChange = scrollTop > 70 ? 1 : 0
+    },
+    // 获取消息数
+    GetUnreadMes () {
+      this.$axios({
+        method: 'post',
+        url: '/gxc/contactmsgtb/getStatusOf0',
+      }).then((res) => {
+        // console.log(res)
+        if (res.data.code === 0) {
+          this.CountsOfUnchecked = res.data.CountsOfUnchecked
+        }
+      })
     }
   },
-  created () {},
+  created () {
+    this.GetUnreadMes()
+  },
   mounted () {
     window.addEventListener('scroll', this.initHeight)
   }
@@ -79,5 +94,8 @@ export default {
 }
 ::v-deep .el-badge__content.is-fixed {
   top: 8px;
+}
+img {
+  object-fit: cover;
 }
 </style>

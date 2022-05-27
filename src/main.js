@@ -13,6 +13,9 @@ import './style/element-variables.scss'
 import * as echarts from 'echarts'
 // 中国地图
 import china from 'echarts/map/json/china.json'
+// 工具文件
+// 引入校验js文件
+import utils from '@/utils/utils.js'
 // 引入校验js文件
 import validate from '@/utils/validate.js'
 // 引入 时间格式转换工具类
@@ -22,6 +25,7 @@ import randomCreatePassword from '@/utils/randomCreatePassword'
 
 Vue.prototype.$axios = axios
 Vue.prototype.$echarts = echarts
+Vue.prototype.$utils = utils
 Vue.prototype.$validate = validate
 Vue.prototype.$dataFormat = dataFormat
 Vue.prototype.$randomCreatePassword = randomCreatePassword

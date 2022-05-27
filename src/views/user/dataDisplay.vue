@@ -112,7 +112,7 @@ export default {
     flex: 7;
   }
   .top {
-    flex: 3;
+    flex: 4;
   }
 }
 </style>

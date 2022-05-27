@@ -1,8 +1,8 @@
 module.exports = {
   devServer: {
     open: true,
-    host: 'localhost',
-    port: 8080,
+    // host: 'localhost',
+    // port: 8080,
     proxy: {
       '/api': {
         target: 'http://http://localhost:9090/',
@@ -15,6 +15,6 @@ module.exports = {
   },
   productionSourceMap: false,
   chainWebpack: (config) => {
-    config.plugins.delete('prefetch')/* 预加载处理 */
+    config.plugins.delete('prefetch') // 预加载处理
   }
 }

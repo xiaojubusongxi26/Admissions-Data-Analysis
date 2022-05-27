@@ -7,6 +7,8 @@
         <el-input
           type="textarea"
           :rows="5"
+          maxlength="200"
+          show-word-limit
           resize="none"
           placeholder="请输入内容"
           v-model="textarea">
@@ -42,7 +44,8 @@ export default {
       // 验证码的随机取值范围
       identifyCodes: '1234567890',
 
-      keyIdentifyCode: ''
+      keyIdentifyCode: '',
+      time: ''
     }
   },
   watch: {},
@@ -58,12 +61,26 @@ export default {
         this.$message.warning('验证码有误')
         return 0
       }
+      this.time = this.$utils.getTime()
       // 将用户id，以及描述的问题上传到管理员
-      // 成功
-      this.$notify({
-        title: '提交成功',
-        message: '您的问题已发送至管理员，我们会尽快处理',
-        type: 'success'
+      this.$axios({
+        method: 'post',
+        url: '/gxc/contactmsgtb/save',
+        data: {
+          userId: this.$store.getters.getUserId,
+          message: this.textarea,
+          createTime: this.time
+        }
+      }).then((res) => {
+        console.log(res)
+        if (res.data.code === 0) {
+          // 成功
+          this.$notify({
+            title: '提交成功',
+            message: '您的问题已发送至管理员，我们会尽快处理',
+            type: 'success'
+          })
+        }
       })
     },
     // 点击验证码刷新验证码
