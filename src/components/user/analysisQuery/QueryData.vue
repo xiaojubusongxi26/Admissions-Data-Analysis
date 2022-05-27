@@ -38,21 +38,23 @@
         </el-date-picker>
       </div>
       <div class="demo-input-suffix">
-        <el-button type="primary" icon="el-icon-search">查询</el-button>
-        <el-button type="primary" icon="el-icon-download">导出</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="search">
+          查询
+        </el-button>
+        <el-button type="primary" icon="el-icon-download" @click="download">
+          导出
+        </el-button>
       </div>
     </div>
     <div class="query-show">
       <el-table :data="tableData" stripe border>
-        <el-table-column prop="id" label="#"> </el-table-column>
+        <el-table-column prop="schoolCode" label="#"> </el-table-column>
         <el-table-column prop="school" label="学校"> </el-table-column>
         <el-table-column prop="province" label="省份"> </el-table-column>
-        <el-table-column prop="profession" label="专业分类"> </el-table-column>
-        <el-table-column prop="admissionBatch" label="录取批次">
-        </el-table-column>
-        <el-table-column prop="enrollment" label="招生人数"> </el-table-column>
-        <el-table-column prop="enrollmentYear" label="招生年份">
-        </el-table-column>
+        <el-table-column prop="profess" label="专业分类"> </el-table-column>
+        <el-table-column prop="batch" label="录取批次"> </el-table-column>
+        <el-table-column prop="plan" label="招生人数"> </el-table-column>
+        <el-table-column prop="year" label="招生年份"> </el-table-column>
         <el-table-column prop="collect" label="收藏" width="50px">
           <template slot-scope="scope">
             <div class="collect" @click="dele(scope.row)">
@@ -81,7 +83,15 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination layout="prev, pager, next" :total="1000"> </el-pagination>
+      <el-pagination
+        background
+        :page-size="pageSize"
+        :current-page="pageNum"
+        :page-count="totalPages"
+        @current-change="handleCurrentChange"
+        layout="prev, pager, next"
+      >
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -98,63 +108,26 @@ export default {
       queryProfession: '',
       queryProvince: '',
       queryYear: '',
+      pageNum: 1,
+      pageSize: 10,
+      totalPages: 0,
 
       // 查询结果数据示例
-      tableData: [
-        {
-          id: '1001',
-          school: '清华大学',
-          province: '北京',
-          profession: '计算机科学与技术',
-          admissionBatch: '1',
-          enrollment: 26,
-          enrollmentYear: 2016,
-        },
-        {
-          id: '1001',
-          school: '清华大学',
-          province: '北京',
-          profession: '计算机科学与技术',
-          admissionBatch: '1',
-          enrollment: 26,
-          enrollmentYear: 2016,
-        },
-        {
-          id: '1001',
-          school: '清华大学',
-          province: '北京',
-          profession: '计算机科学与技术',
-          admissionBatch: '1',
-          enrollment: 26,
-          enrollmentYear: 2016,
-        },
-        {
-          id: '1001',
-          school: '清华大学',
-          province: '北京',
-          profession: '计算机科学与技术',
-          admissionBatch: '1',
-          enrollment: 26,
-          enrollmentYear: 2016,
-        },
-        {
-          id: '1001',
-          school: '清华大学',
-          province: '北京',
-          profession: '计算机科学与技术',
-          admissionBatch: '1',
-          enrollment: 26,
-          enrollmentYear: 2016,
-        },
-      ],
+      tableData: [],
     }
   },
   watch: {},
   computed: {},
   methods: {
     init() {
-      this.getDefaultInfo().then(({ data }) => {
-        console.log(data)
+      this.getInfo(
+        this.pageNum,
+        this.pageSize,
+        this.querySchool,
+        this.queryProvince,
+        this.queryProfession
+      ).then(({ data }) => {
+        this.dealData(data)
       })
     },
     // 向收藏栏组件传入要添加的数据
@@ -163,18 +136,72 @@ export default {
       console.log(e)
       bus.$emit('addQueryData', e)
     },
-    async getDefaultInfo() {
-      const data = {
-        pageNum: 1,
-        pageSize: 5
-      }
+    // 分页控制
+    handleCurrentChange(val) {
+      this.pageNum = val
+      this.getInfo(
+        this.pageNum,
+        this.pageSize,
+        this.querySchool,
+        this.queryProvince,
+        this.queryProfession
+      ).then(({ data }) => {
+        this.dealData(data)
+      })
+    },
+    search() {
+      this.getInfo(
+        this.pageNum,
+        this.pageSize,
+        this.querySchool,
+        this.queryProvince,
+        this.queryProfession
+      ).then(({ data }) => {
+        this.dealData(data)
+      })
+    },
+    download() {
+      const pageNum = this.pageNum === '' ? '' : 'pageNum=' + this.pageNum + '&'
+      const pageSize =
+        this.pageSize === '' ? '' : 'pageSize=' + this.pageSize + '&'
+      const school =
+        this.querySchool === '' ? '' : 'school=' + this.querySchool + '&'
+      const province =
+        this.queryProvince === '' ? '' : 'province=' + this.queryProvince + '&'
+      const profess =
+        this.queryProfession === ''
+          ? ''
+          : 'profess=' + this.queryProfession + '&'
+      location.href =
+        'http://192.168.3.2:9090/api/gxc/enrollmentplantb/download?' +
+        pageNum +
+        pageSize +
+        school +
+        province +
+        profess
+    },
+    dealData(data) {
+      this.totalPages = data.data.totalPages
+      this.tableData = data.data.list
+      this.tableData.forEach((v) => {
+        v.year = 2016
+      })
+    },
+    async getInfo(pageNum, pageSize, school, province, profess) {
+      pageNum = pageNum === '' ? '' : 'pageNum=' + pageNum + '&'
+      pageSize = pageSize === '' ? '' : 'pageSize=' + pageSize + '&'
+      school = school === '' ? '' : 'school=' + school + '&'
+      province = province === '' ? '' : 'province=' + province + '&'
+      profess = profess === '' ? '' : 'profess=' + profess + '&'
       const res = await this.$axios({
-        url: 'gxc/enrollmentplantb/list?pageNum=1&pageSize=5',
+        url:
+          'gxc/enrollmentplantb/list?' +
+          pageNum +
+          pageSize +
+          school +
+          province +
+          profess,
         method: 'get',
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-        data: data
       })
       return res
     },

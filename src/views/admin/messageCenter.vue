@@ -7,17 +7,17 @@
     <div class="message" v-for="(item, index) in message" :key="index">
       <div class="message-user-info">
         <div class="user-info-avatar">
-          <img :src="message[0].userAvatar" alt="">
+          <img :src="item.avatar" alt="" />
         </div>
         <div class="user-info-username">
-          {{ message[0].userName }}
+          {{ item.userId }}
         </div>
         <div class="user-info-time">
-          {{ message[0].messageTime }}
+          {{ item.createTime }}
         </div>
       </div>
       <div class="message-text">
-        {{ message[0].messageText }}
+        {{ item.message }}
       </div>
     </div>
   </div>
@@ -27,35 +27,49 @@
 export default {
   components: {},
   props: {},
-  data () {
+  data() {
     return {
-      message: [
-        {
-          userName: '潇白衣',
-          userAvatar: require('@/assets/images/default/avatar/默认头像-男.png'),
-          messageText: '红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错',
-          messageTime: '2022-05-20 13:15'
-        },
-        {
-          userName: '潇白衣',
-          userAvatar: require('@/assets/images/default/avatar/默认头像-男.png'),
-          messageText: '红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错',
-          messageTime: '2022-05-20 13:15'
-        },
-        {
-          userName: '潇白衣',
-          userAvatar: require('@/assets/images/default/avatar/默认头像-男.png'),
-          messageText: '红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错红泪偷垂，满眼春风百事非。 --采桑子·当时错',
-          messageTime: '2022-05-20 13:15'
-        }
-      ]
+      message: [],
+      defaultManImg: this.$store.getters.getDefaultManImg,
+      defaultWomanImg: this.$store.getters.getDefaultWomanImg,
+      defaultSecrecyImg: this.$store.getters.getDefaultSecrecyImg,
     }
   },
   watch: {},
   computed: {},
-  methods: {},
-  created () {},
-  mounted () {}
+  methods: {
+    init() {
+      this.getAllMessage().then(({ data }) => {
+        this.message = data.ContactMsgVoList
+        this.dealData()
+      })
+    },
+    dealData() {
+      this.message.forEach((v) => {
+        if (v.avatar === null) {
+          if (v.sex === 0) {
+            v.avatar = this.defaultManImg
+          } else if (v.sex === 1) {
+            v.avatar = this.defaultWomanImg
+          } else {
+            v.avatar = this.defaultSecrecyImg
+          }
+        }
+      })
+    },
+    async getAllMessage() {
+      const data = await this.$axios({
+        url: 'gxc/contactmsgtb/getContactMsgVoList',
+        method: 'post',
+      })
+
+      return data
+    },
+  },
+  created() {
+    this.init()
+  },
+  mounted() {},
 }
 </script>
 <style lang="scss" scoped>
@@ -64,12 +78,13 @@ export default {
   box-sizing: border-box;
   border-radius: 4px;
   min-height: 650px;
-  box-shadow: 0 4px 8px 0 rgb(189 189 189 / 20%), 0 3px 10px 0 rgb(203 203 203 / 19%);
+  box-shadow: 0 4px 8px 0 rgb(189 189 189 / 20%),
+    0 3px 10px 0 rgb(203 203 203 / 19%);
   margin-bottom: 26px;
   padding-bottom: 36px;
   overflow-x: hidden;
   overflow-y: auto;
-  .title{
+  .title {
     box-sizing: border-box;
     padding: 0 36px 0 10px;
     width: 100%;
@@ -113,8 +128,8 @@ export default {
     box-sizing: border-box;
     border-radius: 8px;
     margin-top: 20px;
-    transition: .2s all;
-    &:hover{
+    transition: 0.2s all;
+    &:hover {
       background: #eeeeee;
     }
     .message-user-info {

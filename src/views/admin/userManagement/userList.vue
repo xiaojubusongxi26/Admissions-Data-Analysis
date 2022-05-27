@@ -201,7 +201,6 @@ export default {
     // 初始化获取所有用户数据
     initUserData() {
       this.getAllUser().then(({ data }) => {
-        console.log(data)
         this.page = data.page
         this.page.pageSize = 5
         this.page.totalCount = this.page.list.length
@@ -247,7 +246,6 @@ export default {
         const newState = item.status === -1 || item.status === -2 ? 0 : -1
         this.updateUserState(item.userId, newState)
           .then(({ data }) => {
-            console.log(data)
             item.status = data.curStatus
             this.$message({
               type: 'success',
@@ -262,11 +260,17 @@ export default {
           })
       })
     },
+    // 搜索用户
     search() {},
-    clear() {},
+    // 清除搜索条件并重置用户列表
+    clear() {
+      this.searchUsername = ''
+      this.searchName = ''
+      this.searchTell = ''
+      this.initUserData()
+    },
     // 分页控制
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
       this.userList = this.page.list.slice(
         (val - 1) * this.page.pageSize,
         val * this.page.pageSize

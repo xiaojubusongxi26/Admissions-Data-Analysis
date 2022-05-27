@@ -145,7 +145,6 @@ export default {
     saveRevise() {
       this.updateUserInfo()
         .then(({ data }) => {
-          console.log(data)
           this.$message({
             type: 'success',
             message: '用户信息修改成功',
@@ -163,7 +162,6 @@ export default {
     initUserInfo() {
       this.userId = this.$route.params.id
       this.getUserInfo().then(({ data }) => {
-        console.log(data)
         this.userInfo = data.user
         if (this.userInfo.avatar === null) {
           if (this.userInfo.sex === 0) {

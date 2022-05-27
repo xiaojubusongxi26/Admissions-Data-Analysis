@@ -29,7 +29,6 @@ export default {
     init() {
       this.getData().then(({ data }) => {
         Object.keys(data).forEach((k, v) => {
-          console.log(k + ', ' + v)
           if (k === 'status_1') {
             this.loginCount += v
             this.enableCount += v

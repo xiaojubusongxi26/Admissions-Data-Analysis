@@ -139,7 +139,6 @@ export default {
     initUserInfo() {
       this.userId = this.$route.params.id
       this.getUserInfo().then(({ data }) => {
-        console.log(data)
         this.userInfo = data.user
         if (this.userInfo.avatar === null) {
           if (this.userInfo.sex === 0) {

@@ -90,7 +90,6 @@ export default {
         '{"satoken": "' + this.$store.getters.getToken + '"}'
       )
       this.getAdminInfo().then(({ data }) => {
-        console.log(data)
         this.admin = data.user
 
         if (this.admin.avatar === null) {
@@ -105,15 +104,12 @@ export default {
       })
     },
     // 上传头像后头像 url 修改
-    handleAvatarSuccess(res, file) {
-      console.log(res)
-      this.imageUrl = URL.createObjectURL(file.raw)
+    handleAvatarSuccess(res) {
       this.$message({
         message: '头像更新成功',
         type: 'success',
       })
-      const url = this.userInfo.userAvatar
-      this.userInfo.userAvatar = url
+      this.admin.avatar = res.url
     },
     // 上传头像前文件格式校验
     beforeAvatarUpload(file) {
@@ -131,14 +127,16 @@ export default {
     },
     // 保存管理员用户信息
     saveAdminInfo() {
-      this.updateAdminInfo().then(({ data }) => {
-        console.log(data)
+      this.updateAdminInfo().then(() => {
+        this.$message({
+          message: '用户信息更改成功',
+          type: 'success',
+        })
       })
     },
     // 管理员退出登录
     signOut() {
-      this.logout().then(({ data }) => {
-        console.log(data)
+      this.logout().then(() => {
         this.$store.commit('logout')
         this.$router.push('/login')
       })

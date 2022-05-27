@@ -6,14 +6,14 @@
     </div>
     <div class="query-show" v-if="collectTableData.length !== 0">
       <el-table :data="collectTableData" stripe border>
-        <el-table-column prop="id" label="#"> </el-table-column>
+        <el-table-column prop="schoolCode" label="#"> </el-table-column>
         <el-table-column prop="school" label="学校"> </el-table-column>
         <el-table-column prop="province" label="省份"> </el-table-column>
-        <el-table-column prop="profession" label="专业分类"> </el-table-column>
-        <el-table-column prop="admissionBatch" label="录取批次">
+        <el-table-column prop="profess" label="专业分类"> </el-table-column>
+        <el-table-column prop="batch" label="录取批次">
         </el-table-column>
-        <el-table-column prop="enrollment" label="招生人数"> </el-table-column>
-        <el-table-column prop="enrollmentYear" label="招生年份">
+        <el-table-column prop="plan" label="招生人数"> </el-table-column>
+        <el-table-column prop="year" label="招生年份">
         </el-table-column>
         <el-table-column prop="collect" label="删除" width="50px">
           <template slot-scope="scope">
