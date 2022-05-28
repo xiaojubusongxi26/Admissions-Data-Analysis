@@ -39,5 +39,22 @@ export default {
     }
     msg = true
     return msg
+  },
+  // 导航守卫拦截
+  judge (userRoleId, path) {
+    // console.log(userRoleId, path)
+    if (userRoleId === 1) {
+      if ((path === '/adminIndex') || (path === '/adminHome') || (path === '/systemMaintenance') || (path === '/messageCenter') || (path === '/userManagement') || (path === '/userList') || (path === '/addUser') || (path.includes('userInfo')) || (path.includes('reviseUser')) || (path.includes('resetUserPassword'))) {
+        return false
+      } else {
+        return true
+      }
+    } else if (userRoleId === 2) {
+      if ((path === '/userHome') || (path === '/userIndex') || (path === '/analysisQuery') || (path === '/dataDisplay') || (path.includes('userCenter'))) {
+        return false
+      } else {
+        return true
+      }
+    }
   }
 }

@@ -189,6 +189,7 @@ export default {
       return data
     },
     async updateUserInfo() {
+      console.dir(this.changeUserInfo)
       const data = await this.$axios({
         url: 'gxc/usertb/updateUserById',
         method: 'post',

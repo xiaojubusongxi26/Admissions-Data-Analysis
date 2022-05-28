@@ -68,10 +68,10 @@
     <el-dialog title="第一次登录请修改初始密码" :visible.sync="dialogVisible" width="30%">
       <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="新密码：">
-          <el-input v-model="form.setPw"></el-input>
+          <el-input v-model="form.setPw" show-password></el-input>
         </el-form-item>
         <el-form-item label="确认新密码：">
-          <el-input v-model="form.setPwTwo"></el-input>
+          <el-input v-model="form.setPwTwo" show-password></el-input>
         </el-form-item>
         <span>注：密码必须包含数字，大小写字母，以及特殊符号。且长度在8-12个字符之间</span>
       </el-form>

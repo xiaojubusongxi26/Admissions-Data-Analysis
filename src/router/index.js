@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import validate from '../utils/validate'
 // import store from '@/store/index.js'
 
 const originalPush = VueRouter.prototype.push
@@ -141,7 +142,18 @@ router.beforeEach((to, from, next) => {
         next({ path: '/adminIndex' })
       }
     } else {
-      next()
+      // console.log(to.path)
+      if (userRoleID === 1) {
+        if (!validate.judge(userRoleID, to.path)) {
+          next({ path: '/userIndex' })
+        }
+        next()
+      } else if (userRoleID === 2) {
+        if (!validate.judge(userRoleID, to.path)) {
+          next({ path: '/adminIndex' })
+        }
+        next()
+      }
     }
   } else {
     if (to.path !== '/login') {
