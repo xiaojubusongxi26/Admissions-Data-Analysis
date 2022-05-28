@@ -21,7 +21,7 @@ axios.interceptors.request.use(
   config => {
     // console.log(config)
     // if (!config.url.includes('http://192.168.3.2:9090')) { return config }
-    if (localStorage.getItem('token') !== '' && config.url.includes('gxc')) {
+    if (localStorage.getItem('token') !== '' && (config.url.includes('gxc') || config.url.includes('register'))) {
       // console.log(localStorage.getItem('satoken'))
       config.headers.Authorization = localStorage.getItem('token')
       config.headers.satoken = localStorage.getItem('token')

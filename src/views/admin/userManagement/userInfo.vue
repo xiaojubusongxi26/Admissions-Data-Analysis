@@ -69,7 +69,7 @@
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.score === 0 ? '未设置' : userInfo.scor }}
+            {{ userInfo.score === 0 ? '未设置' : userInfo.score }}
           </span>
         </div>
       </div>

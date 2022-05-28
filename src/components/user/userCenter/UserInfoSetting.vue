@@ -105,106 +105,106 @@ export default {
       changeUserInfo: {},
       // 省份
       options: [{
-        value: '选项1',
+        value: '北京',
         label: '北京'
       }, {
-        value: '选项2',
+        value: '天津',
         label: '天津'
       }, {
-        value: '选项3',
+        value: '上海',
         label: '上海'
       }, {
-        value: '选项4',
+        value: '重庆',
         label: '重庆'
       }, {
-        value: '选项5',
+        value: '河北',
         label: '河北'
       }, {
-        value: '选项6',
+        value: '河南',
         label: '河南'
       }, {
-        value: '选项7',
+        value: '云南',
         label: '云南'
       }, {
-        value: '选项8',
+        value: '辽宁',
         label: '辽宁'
       }, {
-        value: '选项9',
+        value: '黑龙江',
         label: '黑龙江'
       }, {
-        value: '选项10',
+        value: '湖南',
         label: '湖南'
       }, {
-        value: '选项11',
+        value: '安徽',
         label: '安徽'
       }, {
-        value: '选项12',
+        value: '山东',
         label: '山东'
       }, {
-        value: '选项13',
+        value: '新疆',
         label: '新疆'
       }, {
-        value: '选项14',
+        value: '江苏',
         label: '江苏'
       }, {
-        value: '选项15',
+        value: '浙江',
         label: '浙江'
       }, {
-        value: '选项16',
+        value: '江西',
         label: '江西'
       }, {
-        value: '选项17',
+        value: '湖北',
         label: '湖北'
       }, {
-        value: '选项18',
+        value: '广西',
         label: '广西'
       }, {
-        value: '选项19',
+        value: '甘肃',
         label: '甘肃'
       }, {
-        value: '选项20',
+        value: '山西',
         label: '山西'
       }, {
-        value: '选项21',
+        value: '内蒙古',
         label: '内蒙古'
       }, {
-        value: '选项22',
+        value: '陕西',
         label: '陕西'
       }, {
-        value: '选项23',
+        value: '吉林',
         label: '吉林'
       }, {
-        value: '选项24',
+        value: '福建',
         label: '福建'
       }, {
-        value: '选项25',
+        value: '贵州',
         label: '贵州'
       }, {
-        value: '选项26',
+        value: '广东',
         label: '广东'
       }, {
-        value: '选项27',
+        value: '青海',
         label: '青海'
       }, {
-        value: '选项28',
+        value: '西藏',
         label: '西藏'
       }, {
-        value: '选项29',
+        value: '四川',
         label: '四川'
       }, {
-        value: '选项30',
+        value: '宁夏',
         label: '宁夏'
       }, {
-        value: '选项31',
+        value: '海南',
         label: '海南'
       }, {
-        value: '选项32',
+        value: '台湾',
         label: '台湾'
       }, {
-        value: '选项33',
+        value: '香港',
         label: '香港'
       }, {
-        value: '选项34',
+        value: '澳门',
         label: '澳门'
       }],
     }
