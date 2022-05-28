@@ -55,7 +55,7 @@ export default {
     },
     connectWebSocket() {
       this.client = new Client({
-        brokerURL: 'ws://localhost:9090/api/socket',
+        brokerURL: 'ws://192.168.3.2:9090/api/socket',
         connectHeaders: {
           login: 'user',
           passcode: 'password',

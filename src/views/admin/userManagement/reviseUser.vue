@@ -196,6 +196,7 @@ export default {
           userId: this.changeUserInfo.userId,
           email: this.changeUserInfo.email,
           name: this.changeUserInfo.name,
+          phone: this.changeUserInfo.phone,
           sex: this.changeUserInfo.sex,
           username: this.changeUserInfo.username,
         },

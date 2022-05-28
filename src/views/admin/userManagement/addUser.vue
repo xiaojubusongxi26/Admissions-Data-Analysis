@@ -106,11 +106,18 @@ export default {
         cancelButtonText: '取消',
         type: 'info',
       }).then(() => {
-        this.createUser().then(({ data }) => {
-          this.$message({
-            type: 'success',
-            message: '创建成功!',
-          })
+        this.createUser().then((data) => {
+          if (data === 0) {
+            this.$message({
+              type: 'error',
+              message: '创建失败!',
+            })
+          } else {
+            this.$message({
+              type: 'success',
+              message: '创建成功!',
+            })
+          }
         })
         // 创建成功后清除当前信息
         this.resetForm(formName)
@@ -133,6 +140,9 @@ export default {
         data: {
           userTb: userTb,
           role_id: 1,
+        },
+        headers: {
+          satoken: this.$store.getters.getToken,
         },
       })
 

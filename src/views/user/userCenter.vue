@@ -11,7 +11,7 @@
           <el-upload
             name="file"
             class="avatar-uploader"
-            action="http://localhost:9090/api/gxc/usertb/ossFile"
+            action="http://192.168.3.2:9090/api/gxc/usertb/ossFile"
             :headers="headers"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
