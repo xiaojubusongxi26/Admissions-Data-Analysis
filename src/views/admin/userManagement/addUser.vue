@@ -107,6 +107,7 @@ export default {
         type: 'info',
       }).then(() => {
         this.createUser().then(({ data }) => {
+          console.log(data)
           this.$message({
             type: 'success',
             message: '创建成功!',

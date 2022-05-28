@@ -76,7 +76,7 @@
         </div>
         <div class="user-info-data">
           <span>
-            {{ userInfo.score === 0 ? '未设置' : userInfo.scor }}
+            {{ userInfo.score === 0 ? '未设置' : userInfo.score }}
           </span>
         </div>
       </div>
@@ -196,6 +196,7 @@ export default {
           userId: this.changeUserInfo.userId,
           email: this.changeUserInfo.email,
           name: this.changeUserInfo.name,
+          phone: this.changeUserInfo.phone,
           sex: this.changeUserInfo.sex,
           username: this.changeUserInfo.username,
         },

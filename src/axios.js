@@ -41,7 +41,8 @@ axios.interceptors.response.use(
     if (res.code === 0) {
       return response
     } else if (res.code === 1000) {
-      return 0
+      Element.Message.error('操作失败, 请联系管理员', { duration: 2 * 1000 })
+      return Promise.reject(response.data.msg)
     } else {
       Element.Message.error(res.msg, { duration: 2 * 1000 })
       // 返回一个异常提示就不会继续往下走了 不+的话 res=>的里面 还是会继续走的

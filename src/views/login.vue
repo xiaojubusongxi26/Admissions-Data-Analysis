@@ -315,6 +315,7 @@ export default {
             this.isLog = 0
             this.inputUser = ''
             this.inputPwd = ''
+            this.dialogVisible = false
             return 0
           }
         })
