@@ -19,7 +19,7 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
-        <h2>{{ userInfo.username }}</h2>
+        <h2>{{ $store.state.userInfo.username }}</h2>
       </div>
       <div class="userinfo-panel">
         <div class="panel-head">

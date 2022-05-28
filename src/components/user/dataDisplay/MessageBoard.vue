@@ -95,7 +95,7 @@ export default {
     },
     websocketonopen(frame) {
       // 连接建立之后执行订阅，多种订阅
-      console.log('onopen: ' + frame)
+      // console.log('onopen: ' + frame)
       this.client.subscribe('/queue/temp', (message) => {
         // called when the client receives a STOMP message from the server
         // if (message.body) {
@@ -103,8 +103,8 @@ export default {
         // } else {
         //     alert('got empty message');
         // }
-        console.log('mysubscribe: ' + message.body)
-        console.log(JSON.parse(message.body))
+        // console.log('mysubscribe: ' + message.body)
+        // console.log(JSON.parse(message.body))
         this.messageList.push(JSON.parse(message.body))
       })
     },

@@ -21,7 +21,7 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
-        <h2>{{ admin.username }}</h2>
+        <h2>{{ $store.state.userInfo.username }}</h2>
       </div>
       <div class="userinfo-panel">
         <div class="userinfo-panel-show">
@@ -128,11 +128,13 @@ export default {
     },
     // 保存管理员用户信息
     saveAdminInfo() {
-      this.updateAdminInfo().then(() => {
+      this.updateAdminInfo().then((data) => {
         this.$message({
           message: '用户信息更改成功',
           type: 'success',
         })
+        console.log(data)
+        this.$store.dispatch('update_userInfo', data.data.curInfo)
       })
     },
     // 管理员退出登录
@@ -170,6 +172,7 @@ export default {
           username: this.admin.username,
         },
       })
+      console.log(data)
       return data
     },
   },

@@ -292,7 +292,7 @@ export default {
       if (pwd === '' || pwdSecond === '') {
         this.$message.warning('请输入密码')
         return 0
-      } else if (!this.$validate.checkPw(pwd) || !this.$validate.checkPw(pwdSecond)) {
+      } else if (this.$validate.checkPw(pwd) !== true && this.$validate.checkPw(pwdSecond) !== true) {
         console.log(pwd, pwdSecond)
         this.$message.warning('密码格式有误')
         return 0

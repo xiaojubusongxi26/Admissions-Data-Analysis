@@ -4,7 +4,7 @@
       <div class="avatar left">
         <router-link :to="'/userCenter/' + $store.state.userInfo.userId" class="user">
           <img :src="$store.state.userInfo.avatar === null ? defaultAvatar : $store.state.userInfo.avatar" alt="">
-          <h2>{{ $store.state.userInfo.username }}</h2>
+          <h2>{{ $store.getters.getUserInfo.username }}</h2>
         </router-link>
       </div>
     </div>

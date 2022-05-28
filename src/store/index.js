@@ -56,7 +56,8 @@ export default new Vuex.Store({
         }
       }
       sessionStorage.setItem('userId', value.userId)
-      sessionStorage.setItem('userInfo', JSON.stringify(value))
+      // console.log(value)
+      sessionStorage.setItem('userInfo', JSON.stringify(state.userInfo))
     },
     setUserAvatar (state, value) {
       // 修改头像

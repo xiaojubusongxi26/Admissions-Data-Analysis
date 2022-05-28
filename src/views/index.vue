@@ -16,13 +16,15 @@ export default {
   },
   props: {},
   data () {
-    return {}
+    return {
+      userId: 0
+    }
   },
   watch: {},
   computed: {},
   methods: {
     // 获取用户个人信息，保存到store
-    getUerInfo () {
+    getUerId () {
       const hasToken = localStorage.getItem('token')
       this.$axios({
         method: 'post',
@@ -31,15 +33,27 @@ export default {
           token: hasToken
         }
       }).then((res) => {
+        // console.log(res)
+        this.userId = res.data.user.userId
+        this.getUserInfo()
+      })
+    },
+    getUserInfo () {
+      // console.log(userId)
+      this.$axios({
+        method: 'post',
+        url: '/gxc/usertb/info/' + this.userId
+      }).then((res) => {
+        // console.log(res)
         this.$store.dispatch('update_userInfo', res.data.user)
-        // this.$store.commit('setUserInfo', res.data.user)
       })
     }
   },
   created () {
   },
   mounted () {
-    this.getUerInfo()
+    this.getUerId()
+    // this.getUserInfo()
   }
 }
 </script>
