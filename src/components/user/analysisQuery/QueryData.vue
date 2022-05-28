@@ -173,7 +173,7 @@ export default {
           ? ''
           : 'profess=' + this.queryProfession + '&'
       location.href =
-        'http://120.76.216.233:9090/api/gxc/enrollmentplantb/download?' +
+        'http://192.168.3.2:9090/api/gxc/enrollmentplantb/download?' +
         pageNum +
         pageSize +
         school +
