@@ -84,6 +84,8 @@
 </template>
 
 <script>
+// 引入base64
+const Base64 = require('js-base64').Base64
 export default {
   name: 'login',
   data () {
@@ -200,7 +202,6 @@ export default {
           this.saveUserInfo(res.data)
           if (res.data.user.roleId === 2) {
             // 管理员登录
-            this.$message.success('登录成功')
             this.$router.push({
               path: '/adminIndex',
               params: {
@@ -215,7 +216,6 @@ export default {
               this.dialogVisible = true // 展示重置密码弹窗
             } else {
               // 不是初始密码，直接登录
-              this.$message.success('登录成功')
               this.$router.push({
                 path: '/userIndex',
                 params: {
@@ -224,6 +224,8 @@ export default {
               })
             }
           }
+          this.$message.success('登录成功')
+          this.setUserInfo()
         } else {
           // 展示错误信息
           this.$message.error(res.data.msg)
@@ -476,7 +478,56 @@ export default {
       this.$store.commit('$_setToken', data.satoken)
       // 保存用户角色类型
       this.$store.dispatch('update_userRoleID', data.user.roleId)
-    }
+    },
+    // 在页面加载时从cookie获取登录信息
+    getLoginInfo () {
+      const account = this.getCookie('account')
+      // console.log(this.getCookie('password'))
+      const password = Base64.decode(this.getCookie('password'))
+      // 如果存在赋值给表单，并且将记住密码勾选
+      if (account) {
+        this.inputUser = account
+        this.inputPwd = password
+        this.isRememberPwd = true
+      }
+    },
+    // 储存表单信息
+    setUserInfo () {
+      // 判断用户是否勾选记住密码，如果勾选，向cookie中储存登录信息，
+      // 如果没有勾选，储存的信息为空
+      if (this.isRememberPwd) {
+        this.setCookie('account', this.inputUser)
+        // base64加密密码
+        const passWord = Base64.encode(this.inputPwd)
+        this.setCookie('password', passWord)
+      } else {
+        this.setCookie('account', '')
+        this.setCookie('password', '')
+      }
+    },
+    // 获取cookie
+    getCookie (key) {
+      if (document.cookie.length > 0) {
+        let start = document.cookie.indexOf(key + '=')
+        if (start !== -1) {
+          start = start + key.length + 1
+          let end = document.cookie.indexOf(';', start)
+          if (end === -1) end = document.cookie.length
+          return unescape(document.cookie.substring(start, end))
+        }
+      }
+      return ''
+    },
+    // 保存cookie
+    setCookie (cName, value, expiredays) {
+      var exdate = new Date()
+      exdate.setDate(exdate.getDate() + expiredays)
+      document.cookie = cName + '=' + decodeURIComponent(value) +
+      ((expiredays == null) ? '' : ';expires=' + exdate.toGMTString())
+    },
+  },
+  created () {
+    this.getLoginInfo()
   }
 }
 </script>

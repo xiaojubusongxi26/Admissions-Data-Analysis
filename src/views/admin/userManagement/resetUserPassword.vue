@@ -28,8 +28,6 @@
             v-model="newPw"
             placeholder="请输入内容"
             show-password
-            maxlength="10"
-            show-word-limit
             validate-event
           ></el-input>
         </div>

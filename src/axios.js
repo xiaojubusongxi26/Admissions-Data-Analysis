@@ -51,10 +51,10 @@ axios.interceptors.response.use(
   },
   (error) => {
     // 使得异常信息更加友好
-    /* if (error.code === 'ERR_BAD_RESPONSE') {
-      Element.Message.error('手机号/邮箱格式有误')
+    if (error.request.responseURL.includes('login')) {
+      Element.Message.error('手机号/邮箱有误')
       return
-    } */
+    }
     console.log('error : ', error)
     if (error.response.msg) {
       // data不为空时
