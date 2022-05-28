@@ -42,6 +42,7 @@ export default new Vuex.Store({
     },
     setUserInfo (state, value) {
       // 设置用户信息
+      console.log(value)
       state.userInfo = JSON.parse(JSON.stringify(value))
       state.userId = value.userId
       // 设置默认头像

@@ -30,15 +30,17 @@ export default {
         data: {
           token: hasToken
         }
-      }).then(res => {
+      }).then((res) => {
         this.$store.dispatch('update_userInfo', res.data.user)
+        // this.$store.commit('setUserInfo', res.data.user)
       })
     }
   },
   created () {
-    this.getUerInfo()
   },
-  mounted () {}
+  mounted () {
+    this.getUerInfo()
+  }
 }
 </script>
 <style lang="scss" scoped>

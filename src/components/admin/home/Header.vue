@@ -75,22 +75,30 @@ export default {
       })
     }, */
     // 获取用户个人信息，保存到store
-    getUerInfo () {
+    /* async getUerInfo () {
       if (this.$store.state.userId !== 0 && this.$store.state.userId !== '') {
         // console.log(this.$store.state.userId)
-        this.$axios({
+        const { data } = await this.$axios({
           method: 'post',
           url: '/gxc/usertb/info/' + this.$store.state.userId,
-        }).then(res => {
-          this.$store.dispatch('update_userInfo', res.data.user)
         })
+        this.$store.dispatch('update_userInfo', data.user)
       }
+    } */
+    // 获取未读消息数
+    async GetStatus () {
+      const res = await this.$axios({
+        method: 'post',
+        url: '/gxc/contactmsgtb/getStatusOf0'
+      })
+      this.unreadCount = res.data.CountsOfUnchecked
     }
   },
   created() {
+    this.GetStatus()
   },
   mounted() {
-    this.getUerInfo()
+    // this.getUerInfo()
     window.addEventListener('scroll', this.initHeight)
   },
 }

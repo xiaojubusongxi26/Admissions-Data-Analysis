@@ -52,18 +52,8 @@ export default {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
       this.isChange = scrollTop > 70 ? 1 : 0
     },
-    // 获取用户个人信息，保存到store
-    getUerInfo () {
-      this.$axios({
-        method: 'post',
-        url: '/gxc/usertb/info/' + this.$store.state.userId,
-      }).then(res => {
-        this.$store.dispatch('update_userInfo', res.data.user)
-      })
-    }
   },
   created () {
-    this.getUerInfo()
   },
   mounted () {
     window.addEventListener('scroll', this.initHeight)
